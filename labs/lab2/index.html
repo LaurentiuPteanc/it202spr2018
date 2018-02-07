@@ -51,5 +51,22 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script>
+        // Built by LucyBot. www.lucybot.com
+        var url = "https://api.nytimes.com/svc/movies/v2/reviews/search.json";
+        url += '?' + $.param({
+          'api-key': "2131c8965f3b4bc4ac3bd0d3a7c90a63"
+          'query' : "last jedi"
+        });
+        $.ajax({
+          url: url,
+          method: 'GET',
+        }).done(function(result) {
+          console.log(result);
+        }).fail(function(err) {
+          throw err;
+        });
+    </script>
+  
   </body>
 </html>
