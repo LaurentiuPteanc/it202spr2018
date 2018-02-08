@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
-
-    <title>Starter Template for Bootstrap</title>
-
-    <script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
-  
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"></script>
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-
-  </head>
+<head>
+  <title>LPteanc Homework 5</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
 
   <body>
-    <div id="home"></div>
+    
+    <div class="container">
+        <div id="home"></div>
     <div id="search">
         <input type="text" id="query" placeholder="Search for a movie"/>
         <button type="button" id="search" onclick="doSearch()" >Search</button>
         
         
     </div>
-    <div id="results"></div>
-  
+        <div id="results">
+        <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
+            <img class="card-img-top" src="" alt="Card image cap">
+            <div class="card-block">
+                <h4 class="card-title">Card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+        
+    </div>
+    </div>
+    
     <script>
     
     function doSearch() {
@@ -49,11 +50,27 @@
           method: 'GET',
         }).done(function(result) {
           console.log(result);
+          loadResponse(result);
         }).fail(function(err) {
           throw err;
         });
     }
     
+    function loadResponse(response){
+        $.each(response.results,function(k,v){
+            var cardTemplate = $("div[name='cardTemplate']");
+            cardClone = cardTemplate.clone();
+            
+            cardClone.find("img").attr("src",v.multimedia.src);
+            
+            cardClone.attr("name","");
+            cardClone.attr("hidden",false);
+            cardTemplate.parent().prepend(cardClone);
+            cardClone.show();
+            
+            console.log(cardClone);
+        });
+    }
     </script>
   
   </body>
