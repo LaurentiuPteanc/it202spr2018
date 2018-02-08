@@ -24,9 +24,10 @@
         <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
             <img class="card-img-top" src="" alt="Card image cap">
             <div class="card-block">
-                <h4 class="card-title">Card title</h4>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <h3 class="card-title">Card title</h3>
+                <h5 name="headline">Some headline text</h5>
+                <p class="card-text" name="summ_short">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Read Full Review</a>
             </div>
         </div>
         
@@ -36,7 +37,8 @@
     <script>
     
     function doSearch() {
-        // Built by LucyBot. www.lucybot.com
+        $("div[name='cardTemplate']").siblings().remove();
+        
         var movie = $("#query").val();
         console.log(movie);
         
@@ -59,13 +61,27 @@
     function loadResponse(response){
         $.each(response.results,function(k,v){
             var cardTemplate = $("div[name='cardTemplate']");
-            cardClone = cardTemplate.clone();
+            var cardClone = cardTemplate.clone();
             
-            cardClone.find("img").attr("src",v.multimedia.src);
+            if (v.multimedia != null && v.multimedia.src != null)
+            {
+                cardClone.find("img").attr("src",v.multimedia.src);
+            }
+            else
+            {
+                cardClone.find("img").attr("src","https://cdn.shopify.com/s/files/1/1380/9193/t/3/assets/no-image.svg?2375582141201571545");
+            }
+            
+            cardClone.find("h3").text(v.display_title);
+            
+            cardClone.find("h5[name='headline']").text(v.headline);
+            cardClone.find("p[name='summ_short']").text(v.summary_short);
+            cardClone.find("a").attr("href",v.link.url);
+            
             
             cardClone.attr("name","");
             cardClone.attr("hidden",false);
-            cardTemplate.parent().prepend(cardClone);
+            cardTemplate.parent().append(cardClone);
             cardClone.show();
             
             console.log(cardClone);
