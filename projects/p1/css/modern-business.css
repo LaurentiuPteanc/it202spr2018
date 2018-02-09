@@ -6,7 +6,18 @@
 
 @media (min-width: 992px) {
   body {
+    padding-top: 0px;
+  }
+}
+
+@media (max-width: 992px) {
+  body {
     padding-top: 56px;
+  }
+}
+@media (max-width: 272px) {
+  body {
+    padding-top: 93px;
   }
 }
 
