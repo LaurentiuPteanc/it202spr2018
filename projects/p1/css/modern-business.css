@@ -30,3 +30,10 @@
   -o-background-size: cover;
   background-size: cover;
 }
+
+  .container-fluid {
+      padding: 60px 50px;
+  }
+  .bg-grey {
+      background-color: #f6f6f6;
+  }
