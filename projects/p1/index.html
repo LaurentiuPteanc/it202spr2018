@@ -22,6 +22,7 @@
     <link href="css/coming-soon.css" rel="stylesheet">
     <link href="css/modern-business.css" rel="stylesheet">
     <link href="css/agency.css" rel="stylesheet">
+    <link href="css/listing.css" rel="stylesheet">
     
   </head>
 
@@ -170,12 +171,96 @@
   </div>
 </div>
 
+
 <!-- Add Google Maps -->
 <div id="googleMap" style="height:400px;width:100%;"></div>
+
+<!-- Add Dragable Listing -->
+<section class="row-section">
+    <div class="container">
+	    <div class="row">
+		    <h2 class="text-center"><span>Dragable Listing</span>Created with <i class="fa fa-heart"></i> from<a href="http://grafreez.com"> Grafreez.com</a></h2>
+	    </div>
+	    <div class="col-md-10 offset-md-1 row-block">
+	        <ul id="sortable">
+	            <li><div class="media">
+	            <div class="media-left align-self-center">
+	                <img class="rounded-circle" src="https://randomuser.me/api/portraits/women/50.jpg">
+	            </div>
+	            <div class="media-body">
+	                <h4>Camila Terry</h4>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+	            </div>
+	            <div class="media-right align-self-center">
+	                <a href="#" class="btn btn-default">Contact Now</a>
+	            </div>
+	        </div></li>
+	            <li><div class="media">
+	            <div class="media-left align-self-center">
+	                <img class="rounded-circle" src="https://randomuser.me/api/portraits/men/42.jpg">
+	            </div>
+	            <div class="media-body">
+	                <h4>Joel Williamson</h4>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+	            </div>
+	            <div class="media-right align-self-center">
+	                <a href="#" class="btn btn-default">Contact Now</a>
+	            </div>
+	        </div></li>
+	            <li><div class="media">
+	            <div class="media-left align-self-center">
+	                <img class="rounded-circle" src="https://randomuser.me/api/portraits/women/67.jpg">
+	            </div>
+	            <div class="media-body">
+	                <h4>Deann Payne</h4>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+	            </div>
+	            <div class="media-right align-self-center">
+	                <a href="#" class="btn btn-default">Contact Now</a>
+	            </div>
+	        </div></li>
+	            <li><div class="media">
+	            <div class="media-left align-self-center">
+	                <img class="rounded-circle" src="https://randomuser.me/api/portraits/women/50.jpg">
+	            </div>
+	            <div class="media-body">
+	                <h4>Leona Hunter</h4>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+	            </div>
+	            <div class="media-right align-self-center">
+	                <a href="#" class="btn btn-default">Contact Now</a>
+	            </div>
+	        </div></li>
+	            <li><div class="media">
+	            <div class="media-left align-self-center">
+	                <img class="rounded-circle" src="https://randomuser.me/api/portraits/men/89.jpg">
+	            </div>
+	            <div class="media-body">
+	                <h4>Donald Perkins</h4>
+	                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation</p>
+	            </div>
+	            <div class="media-right align-self-center">
+	                <a href="#" class="btn btn-default">Contact Now</a>
+	            </div>
+	        </div></li>
+	        
+	            
+	        
+	        </ul>
+	    </div>
+</div>
+</section>
+  <script>
+  $( function() {
+    $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
+  } );
+  </script>
+
 <script>
 function myMap() {
 var myCenter = new google.maps.LatLng(41.878114, -87.629798);
-var mapProp = {center:myCenter, zoom:12, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
+var mapProp = {center:myCenter, zoom:12, scrollwheel:false, draggable:true, mapTypeId:google.maps.MapTypeId.ROADMAP};
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 var marker = new google.maps.Marker({position:myCenter});
 marker.setMap(map);
