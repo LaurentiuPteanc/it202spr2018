@@ -11,7 +11,7 @@
     <title>Landing Page - Start Bootstrap Theme</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
     <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
     <!-- Custom styles for this template -->
-    <link href="css/landing-page.min.css" rel="stylesheet">
+    <link href="css/landing-page.css" rel="stylesheet">
     <link href="css/modern-business.css" rel="stylesheet">
     <link href="css/agency.css" rel="stylesheet">
     <link href="css/listing.css" rel="stylesheet">
@@ -105,7 +105,7 @@
         <div class="row">
           <div class="col-lg-4">
             <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-              <div class="features-icons-icon d-flex">
+              <div class="features-icons-icon d-flex" color="red">
                 <i class="icon-screen-desktop m-auto text-primary"></i>
               </div>
               <h3>Fully Responsive</h3>
@@ -162,7 +162,36 @@
       </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- Testimonials (Cards put off for later) -->
+    <section class="testimonials text-center bg-light">
+      <div class="container">
+        <h2 class="mb-5">What people are saying...</h2>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+              <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
+              <h5>Margaret E.</h5>
+              <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+              <img class="img-fluid rounded-circle mb-3" src="img/testimonials-2.jpg" alt="">
+              <h5>Fred S.</h5>
+              <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+              <img class="img-fluid rounded-circle mb-3" src="img/testimonials-3.jpg" alt="">
+              <h5>Sarah	W.</h5>
+              <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!--
     <section class="testimonials text-center bg-light">
       <div class="container">
         <h2 class="mb-5">What people are saying...</h2>
@@ -277,7 +306,7 @@
         </div>
       </div>
     </section>
-
+    -->
     <!-- Call to Action -->
     <section class="call-to-action text-white text-center">
       <div class="overlay"></div>
@@ -381,7 +410,7 @@
 <!-- Add Google Maps -->
 <div id="googleMap" style="height:400px;width:100%;"></div>
 
-<!-- Add Dragable Listing -->
+<!-- Add Dragable Listing (Removed for now)
 <section class="row-section">
     <div class="container">
 	    <div class="row">
@@ -462,7 +491,7 @@
     $( "#sortable" ).disableSelection();
   } );
   </script>
-
+-->
 <script>
 function myMap() {
 var myCenter = new google.maps.LatLng(41.878114, -87.629798);
@@ -476,13 +505,9 @@ marker.setMap(map);
 
     <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/vide/jquery.vide.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom scripts for this template -->
-    <script src="js/coming-soon.js"></script>
     <script src="js/agency.js"></script>
   </body>
 

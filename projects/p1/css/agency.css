@@ -1,5 +1,5 @@
 #mainNav {
-  background-color: #212529;
+  background-color: #D50032;
 }
 
 #mainNav .navbar-toggler {
@@ -7,19 +7,19 @@
   right: 0;
   padding: 13px;
   text-transform: uppercase;
-  color: white;
+  color: #D50032;
   border: 0;
-  background-color: #fed136;
+  background-color: #001E62;
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #mainNav .navbar-brand {
-  color: #fed136;
+  color: #001E62;
   font-family: 'Kaushan Script', 'Helvetica Neue', Helvetica, Arial, cursive;
 }
 
 #mainNav .navbar-brand.active, #mainNav .navbar-brand:active, #mainNav .navbar-brand:focus, #mainNav .navbar-brand:hover {
-  color: #fec503;
+  color: #00B5E2;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link {
@@ -27,12 +27,12 @@
   font-weight: 400;
   padding: 0.75em 0;
   letter-spacing: 1px;
-  color: white;
+  color: #001E62;
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 #mainNav .navbar-nav .nav-item .nav-link.active, #mainNav .navbar-nav .nav-item .nav-link:hover {
-  color: #fed136;
+  color: #00B5E2;
 }
 
 @media (min-width: 992px) {
@@ -57,7 +57,7 @@
   #mainNav.navbar-shrink {
     padding-top: 0;
     padding-bottom: 0;
-    background-color: #212529;
+    background-color: #D50032;
   }
   #mainNav.navbar-shrink .navbar-brand {
     font-size: 1.25em;
@@ -65,3 +65,6 @@
   }
 }
 
+.text-primary{
+  color:#001E62!important;
+}
