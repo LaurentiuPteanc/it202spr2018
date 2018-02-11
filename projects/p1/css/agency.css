@@ -27,7 +27,7 @@
   font-weight: 400;
   padding: 0.75em 0;
   letter-spacing: 1px;
-  color: #001E62;
+  color: #D50032;
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -50,19 +50,26 @@
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
     transition: all 0.3s;
+    color:#D50032;
   }
   #mainNav .navbar-nav .nav-item .nav-link {
     padding: 1.1em 1em !important;
+    color: blue;
   }
   #mainNav.navbar-shrink {
     padding-top: 0;
     padding-bottom: 0;
-    background-color: #D50032;
+    background-color: #001E62;
   }
   #mainNav.navbar-shrink .navbar-brand {
     font-size: 1.25em;
     padding: 12px 0;
   }
+}
+
+button[name="contact-button"]{
+  color:white;
+  background-color:#001E62;
 }
 
 .text-primary{
