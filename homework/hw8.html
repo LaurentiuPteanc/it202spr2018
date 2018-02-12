@@ -11,17 +11,18 @@
 </head>
 
   <body>
-    <div id="testdiv"></div>
     <div class="container">
-        <div id="home"></div>
+        <div id="home">
+            <h1>The Weather Searcher</h1>
+        </div>
     <div id="search">
-        <input type="text" id="query" placeholder="Search for a movie"/>
+        <input type="text" id="query" placeholder="Search weather by zipcode or name"/>
         <button type="button" id="search" onclick="doSearch()" >Search</button>
         
         
     </div>
         <div id="results">
-        <div class="card" name="cardTemplate" style="width: 20rem;" >
+        <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
             <div class="card-block">
                 <h3 class="card-title">Card title</h3>
                 <div id="weather" name="weather"></div>
@@ -57,20 +58,25 @@
     function loadResponse(response){
         var cardTemplate = $("div[name='cardTemplate']");
         var cardClone = cardTemplate.clone();
-        var weatherHTML = response.query.results.channel.item.description.split("<![CDATA[")[1];
-        weatherHTML = weatherHTML.split("]]>")[0];
-        
-        console.log(response.query.results.channel.item.description);
-
-        
-        cardClone.find("h3").text(response.query.results.channel.title);
-        
-        /*cardClone.find("h5[name='headline']").text(v.headline);
-        cardClone.find("p[name='summ_short']").text(v.summary_short);
-        
-    */    
-        $("#testdiv").html(response.query.results.channel.item.description);
-        cardClone.find("#weather").html(weatherHTML);
+        if(response.query.results == null)
+        {
+            cardClone.find("h3").text("Cannot find weather info for :"+$("#query").val());
+            cardClone.find("a").hide();
+        }
+        else
+        {
+            var weatherHTML = response.query.results.channel.item.description.split("<![CDATA[")[1];
+            weatherHTML = weatherHTML.split("]]>")[0];
+            
+            console.log(response.query.results.channel.item.description);
+    
+            
+            cardClone.find("h3").text(response.query.results.channel.title);
+            
+            cardClone.find("#weather").html(weatherHTML);
+            cardClone.find("#weather a").hide();
+            cardClone.find(".card-block a").attr("href",response.query.results.channel.item.link);
+        }
         cardClone.attr("name","");
         cardClone.attr("hidden",false);
         cardTemplate.parent().append(cardClone);
