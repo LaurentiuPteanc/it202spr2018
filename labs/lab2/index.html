@@ -8,12 +8,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 </head>
 
   <body>
     
     <div class="container">
-        <div id="home"></div>
+        <div id="home">
+          <h1>Dank Movie Review App</h1>
+          <button type="button" id="begin" onclick="beginSearch()" >Search</button>
+        </div>
     <div id="search">
         <input type="text" id="query" placeholder="Search for a movie"/>
         <button type="button" id="search" onclick="doSearch()" >Search</button>
@@ -35,8 +39,18 @@
     </div>
     
     <script>
-    
+    $(document).ready(function(){ 
+      $("div #search").hide();
+      $("#results").hide();
+      $("#home").show();
+      
+    }) 
+    function beginSearch() {
+      $("#home").hide();
+      $("div #search").show();
+    }
     function doSearch() {
+        $("#results").show();
         $("div[name='cardTemplate']").siblings().remove();
         
         var movie = $("#query").val();
