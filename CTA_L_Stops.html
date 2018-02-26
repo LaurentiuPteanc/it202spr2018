@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+    <script  src="projects/p1/vendor/jquery/jquery.min.js"></script>
+  </head>
+  <body>
+    <h3>My Google Maps Demo</h3>
+    <div id="map"></div>
+    <script>
+      function initMap() {
+        var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: chicago_pos
+        });
+        
+        $.get("https://data.cityofchicago.org/resource/8mj8-j3c4.json?$limit=5")
+          .done(function(response){
+            console.log(response);
+            
+            $.each(response,function(i,v){
+              var stop_info = '<div id="content">'+
+              "temporary info"+
+              '</div>'
+              console.log(v.location.coordinates[1]);
+              var marker_pos = {lat: parseFloat(v.location.coordinates[1]), lng: parseFloat(v.location.coordinates[0])};
+            
+              var marker = new google.maps.Marker({
+                  position: marker_pos,
+                  map: map
+                });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+              
+            })
+            
+            
+            
+            
+          })
+        
+     
+        
+        
+        
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">Chicago</h1>'+
+            '<div id="bodyContent">'+
+            '<p><b>Chicago</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+            'sandstone rock formation in the southern part of the '+
+            'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+            'south west of the nearest large town, Alice Springs; 450&#160;km '+
+            '(280&#160;mi) by road. Kata Tjuta and Chicago are the two major '+
+            'features of the Chicago - Kata Tjuta National Park. Chicago is '+
+            'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+            'Aboriginal people of the area. It has many springs, waterholes, '+
+            'rock caves and ancient paintings. Chicago is listed as a World '+
+            'Heritage Site.</p>'+
+            '<p>Attribution: Chicago, <a href="https://en.wikipedia.org/w/index.php?title=Chicago&oldid=297882194">'+
+            'https://en.wikipedia.org/w/index.php?title=Chicago</a> '+
+            '(last visited June 22, 2009).</p>'+
+            '</div>'+
+            '</div>';
+            
+         var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });   
+      }
+    </script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
+    </script>
+
+  </body>
+</html>
