@@ -39,7 +39,7 @@
     
     $(document).ready(function(){ 
       $("div #search").hide();
-      $("#results").hide();
+      $("#map").hide();
       $("#home").show();
       
       $.ajax({
@@ -52,7 +52,7 @@
             console.log(v.school_type);
             //console.log(checkboxTemplate);
             var checkboxClone = checkboxTemplate.clone();
-            checkboxClone.attr("name","");
+            checkboxClone.attr("name","school_list");
             checkboxClone.attr("value",v.school_type);
             checkboxClone.attr("text",v.school_type);
             checkboxTemplate.parent().append(checkboxClone);
@@ -73,13 +73,20 @@
       $("div #search").show();
     }
     function doSearch() {
-        $("#results").show();
-        
-        var school_type = $("#query").val();
+        $("#map").show();
+        var school_type = '';
+        var schools = $("input[name='school_list']");//("#query").val();
         console.log(school_type);
+        schools.each(function(i){
+          console.log(this.checked);
+          if(this.checked == true){
+            school_type += "'"+this.value+"', ";
+          }
+        });
         
-        var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN ('";
-        url += school_type + "')";
+        var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN (";
+        url += school_type + "'')";
+        console.log(url);
         $.ajax({
           url: url,
           method: 'GET',
