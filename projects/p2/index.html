@@ -100,10 +100,11 @@
           console.log(result);
           $.each(result,function(i,v){
             var marker_pos = {lat: parseFloat(v.location.coordinates[1]), lng: parseFloat(v.location.coordinates[0])};
-            
+            var imgUrl = getMarker(v.school_type);
               markers.push(new google.maps.Marker({
                   position: marker_pos,
-                  map: map
+                  map: map,
+                  icon:imgUrl
                 }));
               
           });
@@ -113,14 +114,55 @@
         });
     }
     
-    function loadResponse(response){
+    function getMarker(school_type){
+        switch (school_type){
+          case "Career academy":
+            return "http://maps.google.com/mapfiles/kml/paddle/grn-stars.png";
+            break;
+          case "Charter":
+            return "http://maps.google.com/mapfiles/kml/paddle/ylw-stars.png";
+            break;
+          case "Citywide-Option":
+            return "http://maps.google.com/mapfiles/kml/paddle/orange-stars.png";
+            break;
+          case "Classical":
+            return "http://maps.google.com/mapfiles/kml/paddle/blu-circle.png";
+            break;
+          case "Contract":
+            return "http://maps.google.com/mapfiles/kml/paddle/grn-circle.png";
+            break;
+          case "Magnet":
+            return "http://maps.google.com/mapfiles/kml/paddle/ltblu-circle.png";
+            break;
+          case "Military academy":
+            return "http://maps.google.com/mapfiles/kml/paddle/pink-circle.png";
+            break;
+          case "Neighborhood":
+            return "http://maps.google.com/mapfiles/kml/paddle/purple-circle.png";
+            break;
+          case "Regional gifted center":
+            return "http://maps.google.com/mapfiles/kml/paddle/red-stars.png";
+            break;
+          case "Selective enrollment":
+            return "http://maps.google.com/mapfiles/kml/paddle/wht-circle.png";
+            break;
+          case "Small":
+            return "http://maps.google.com/mapfiles/kml/paddle/ylw-circle.png";
+            break;
+          case "Special Education":
+            return "http://maps.google.com/mapfiles/kml/paddle/orange-circle.png";
+            break;
+          default:
+            return "http://maps.google.com/mapfiles/kml/paddle/red-circle.png";
+          
+        }
         //console.log(response);
     }
     
     function initMap() {
         var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 12,
           center: chicago_pos
         });
         
