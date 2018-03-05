@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>LPteanc Homework 5</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+  <body>
+    
+    <div class="container">
+        <div id="home">
+          <h1>Dank Movie Review App</h1>
+          <button type="button" id="begin" onclick="beginSearch()" >Begin</button>
+        </div>
+    <div id="search">
+        <input type="text" id="query" placeholder="Search for a school type"/>
+        <button type="button" id="search" onclick="doSearch()" >Search</button>
+        
+        
+    </div>
+        <div id="results">
+        <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
+            <img class="card-img-top" src="" alt="Card image cap">
+            <div class="card-block">
+                <h3 class="card-title">Card title</h3>
+                <h5 name="headline">Some headline text</h5>
+                <p class="card-text" name="summ_short">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Read Full Review</a>
+            </div>
+        </div>
+        
+    </div>
+    </div>
+    
+
+    <script>
+    var map;
+    
+    $(document).ready(function(){ 
+      $("div #search").hide();
+      $("#results").hide();
+      $("#home").show();
+      
+    }) 
+    function beginSearch() {
+      $("#home").hide();
+      $("div #search").show();
+    }
+    function doSearch() {
+        $("#results").show();
+        
+        var school_type = $("#query").val();
+        console.log(school_type);
+        
+        var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN ";
+        url += school_type;
+        $.ajax({
+          url: url,
+          method: 'GET',
+        }).done(function(result) {
+          console.log(result);
+          loadResponse(result);
+        }).fail(function(err) {
+          throw err;
+        });
+    }
+    
+    function loadResponse(response){
+        console.log(response);
+    }
+    
+    function initMap() {
+        var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: chicago_pos
+        });
+        
+           
+      }
+    </script>
+    <script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
+    </script>
+  
+  </body>
+</html>
