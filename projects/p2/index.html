@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>LPteanc Homework 5</title>
+  <title>Project 2 School Search</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -15,7 +15,8 @@
     
     <div class="container">
         <div id="home">
-          <h1>Dank Movie Review App</h1>
+          <h1>Search for Schools</h1>
+          <h4>Instructions: To Be Listed</h4>
           <button type="button" id="begin" onclick="beginSearch()" >Begin</button>
         </div>
     <div id="search">
@@ -24,18 +25,9 @@
         
         
     </div>
-        <div id="results">
-        <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
-            <img class="card-img-top" src="" alt="Card image cap">
-            <div class="card-block">
-                <h3 class="card-title">Card title</h3>
-                <h5 name="headline">Some headline text</h5>
-                <p class="card-text" name="summ_short">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Read Full Review</a>
-            </div>
-        </div>
+        <div id="map">
         
-    </div>
+        </div>
     </div>
     
 
@@ -58,8 +50,8 @@
         var school_type = $("#query").val();
         console.log(school_type);
         
-        var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN ";
-        url += school_type;
+        var url = "https://data.cityofchicago.org/resource/76dk-7ieb.json?$where=school_type IN ('";
+        url += school_type + "')";
         $.ajax({
           url: url,
           method: 'GET',
