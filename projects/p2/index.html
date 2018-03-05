@@ -21,6 +21,9 @@
         </div>
     <div id="search">
         <input type="text" id="query" placeholder="Search for a school type"/>
+        <div id="checkboxes">
+            <input type="checkbox" name="template" value="temp" >
+        </div>
         <button type="button" id="search" onclick="doSearch()" >Search</button>
         
         
@@ -38,6 +41,31 @@
       $("div #search").hide();
       $("#results").hide();
       $("#home").show();
+      
+      $.ajax({
+          url: "https://data.cityofchicago.org/resource/76dk-7ieb.json?$select=school_type&$group=school_type",
+          method: 'GET',
+        }).done(function(result) {
+          var checkboxTemplate = $("input[name='template']");
+          console.log(result);
+          $.each(result,function(i,v){
+            console.log(v.school_type);
+            //console.log(checkboxTemplate);
+            var checkboxClone = checkboxTemplate.clone();
+            checkboxClone.attr("name","");
+            checkboxClone.attr("value",v.school_type);
+            checkboxClone.attr("text",v.school_type);
+            checkboxTemplate.parent().append(checkboxClone);
+            checkboxTemplate.parent().append("<span>"+v.school_type+"</span><br>");
+            
+            
+            
+          });
+          checkboxTemplate.remove();
+          
+        }).fail(function(err) {
+          throw err;
+        });
       
     }) 
     function beginSearch() {
@@ -64,7 +92,7 @@
     }
     
     function loadResponse(response){
-        console.log(response);
+        //console.log(response);
     }
     
     function initMap() {
