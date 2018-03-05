@@ -35,10 +35,12 @@
 
     <script>
     var map;
+    var markers = [];
     
     $(document).ready(function(){ 
       $("div #search").hide();
       $("#home").show();
+      $("#map").hide();
       
       $.ajax({
           url: "https://data.cityofchicago.org/resource/76dk-7ieb.json?$select=school_type&$group=school_type",
@@ -71,8 +73,13 @@
       $("div #search").show();
     }
     function doSearch() {
-        //$("#map").show();
+        $("#map").show();
         //$("#map").attr("hidden","");
+        for (var i = 0; i < markers.length; i=i) {
+            markers[i].setMap(null);
+            markers.splice(i,1);
+        }
+        
         var school_type = '';
         var schools = $("input[name='school_list']");//("#query").val();
         console.log(school_type);
@@ -94,11 +101,11 @@
           $.each(result,function(i,v){
             var marker_pos = {lat: parseFloat(v.location.coordinates[1]), lng: parseFloat(v.location.coordinates[0])};
             
-              var marker = new google.maps.Marker({
+              markers.push(new google.maps.Marker({
                   position: marker_pos,
                   map: map
-                });
-            
+                }));
+              
           });
                 
         }).fail(function(err) {
