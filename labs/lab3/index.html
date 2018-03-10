@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <style type="text/css">
+     canvas {background-image:url("http://moziru.com/images/universe-clipart-background-7.jpg");}
+   </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="600" height="400"></canvas>
+    <img id="harm" width="20" height="27" src="rock.png">
+    <img id="good" width="20" height="20" src="star.png">
+    <img id="player" width="20" height="20" src="spaceship.png">
+
+    <script>
+      var c=document.getElementById("myCanvas");
+      var ctx=c.getContext("2d");
+      
+      var game = {lives: 3, score: 0, level:1, state:"play"};
+      var player = {x: 75, y:110 , color: "green", radius: 25,height:50,width:50};     
+      var harms= [{x: rand(150,c.width), y:rand(15,c.height-15) , color: "blue", height: 25, width:35, radius:13, speed: rand(1,5)}];
+      var goods = [{x: rand(15,c.width),y:rand(15,c.height-15),color:"red",height: 25, width:35, radius:rand(10,50), speed: rand(1,5)}];
+      
+      draw();      
+      
+      function draw() {
+        checkGame();
+        
+        if(game.state == "play"){
+          clearCanvas();
+          
+          refreshScore();
+        
+          moveObjects();
+        
+          checkCollisions();
+        
+          drawObjects();      
+         
+          requestAnimationFrame(draw); 
+        }
+
+      }
+      
+      function clearCanvas() {
+        ctx.clearRect(0,0,c.width,c.height);
+      }
+      
+      function refreshScore() {
+        ctx.font = "12px Comic Sans MS";
+        ctx.fillText("Lives: "+game.lives+" Score: "+game.score+" Level: "+game.level,10,50);
+
+      }
+      
+      function moveObjects() {
+        
+        harms.forEach(function(harm){
+          harm.x-=harm.speed + game.level;
+        });
+        
+        goods.forEach(function(good){
+          good.x-=good.speed;
+        });
+        
+      }
+      
+      function checkCollisions() {
+        var dx;
+        var dy;
+        var distance;
+        
+        harms.forEach(function(harm){
+          if (harm.x <= 0) {
+            resetObject(harm);
+          }  
+          dx = player.x - harm.x;
+          dy = player.y - harm.y;
+          distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < player.radius + harm.radius) {
+              resetObject(harm);   // reposition harm 
+              game.lives--;       // reduce lives
+          }
+        });
+        
+        goods.forEach(function(good){
+          if (good.x <= 0){
+            resetObject(good);
+          }
+          dx = player.x - good.x;
+          dy = player.y - good.y;
+          distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < player.radius + good.radius) {
+              resetObject(good);  // reposition good 
+              game.score+= 5;       // increase score
+                      
+              if(game.score % 20*game.level == 0 ){
+                game.level++;
+              }
+              
+          }
+        });
+        
+      }
+      
+      function drawObjects(argument) {
+        //draw harms
+        harms.forEach(function(harm) {
+          var img = document.getElementById("harm");
+          //console.log(img);
+          ctx.drawImage(img,harm.x-(harm.width/2),harm.y-(harm.height/2),harm.width,harm.height);
+          //ctx.fillStyle = harm.color;
+          //ctx.beginPath();
+          //ctx.arc(harm.x,harm.y,harm.radius,0,2*Math.PI);
+          //ctx.fill();    
+        });
+        
+        //draw goods
+        goods.forEach(function(good){
+          var img=document.getElementById("good");
+          ctx.drawImage(img,good.x-(good.width/2),good.y-(good.height/2),good.width,good.height);
+          //ctx.fillStyle = good.color;
+          //ctx.beginPath();
+          //ctx.arc(good.x,good.y,good.radius,0,2*Math.PI);
+          //ctx.fill();  
+        });
+        
+        // draw player
+        var img=document.getElementById("player");
+        ctx.drawImage(img,player.x-(player.width/2),player.y-(player.width/2),player.width,player.height);
+        
+        //ctx.fillStyle = player.color;
+        //ctx.beginPath();
+        //ctx.arc(player.x,player.y,player.radius,0,2*Math.PI);
+        //ctx.fill();
+
+      }
+      
+      function resetObject(object) {
+        object.x = c.width;
+        object.y = rand(0,c.height);
+        object.width = rand(20,40);
+        object.height = rand(20,40);
+        object.speed = rand(1,5);
+        object.radius = object.height/2;
+      }
+      
+      function checkGame(){
+        if(game.lives == -1){
+          game.state = "over"
+        }
+        
+        if(game.state == "over"){
+          clearCanvas();
+          
+          ctx.fillStyle = "red";
+          ctx.fillRect(0,0,c.width,c.height);
+          ctx.fill();
+          
+          ctx.fillStyle = "white";
+          ctx.font="40pt Arial";
+          ctx.fillText("Game Over",50,100);
+  
+        }
+      }
+      // Random Number between min and max function:
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+      $(document).keydown(function(e){
+        console.log(e);
+        console.log(e.which);
+        switch (e.which) {
+          case 37: //left
+            // code
+            break;
+          case 38: //up
+            player.y-=5;
+            break;
+          case 39: //right
+            break;
+          case 40: //down
+            player.y+=5;
+            break;
+          case 80: //pause
+            console.log(game);
+            if(game.state == "play"){
+              game.state = "pause";
+            }
+            else if(game.state == "pause"){
+              game.state = "play";
+              requestAnimationFrame(draw)
+            }
+            break;
+          default:
+            // code
+        }
+        
+      });
+      
+      
+    
+    </script>
+  </body>
+</html>
