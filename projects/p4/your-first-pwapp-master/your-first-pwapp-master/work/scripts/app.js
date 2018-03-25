@@ -197,6 +197,11 @@
   };
 
   // TODO add saveSelectedCities function here
+  app.saveSelectedCities = function(){
+    var selectedCities = JSON.stringify(app.selectedCities);
+    localStorage.selectedCities = selectedCities;
+    
+  };
 
   app.getIconClass = function(weatherCode) {
     // Weather codes: https://developer.yahoo.com/weather/documentation.html#codes
