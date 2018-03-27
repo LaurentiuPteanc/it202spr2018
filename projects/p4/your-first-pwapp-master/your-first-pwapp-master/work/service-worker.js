@@ -13,7 +13,7 @@
 // limitations under the License.
 
 var dataCacheName = 'weatherData-v2';
-var cacheName = 'weatherPWA-step-6-8';
+var cacheName = 'weatherPWA-step-6-9';
 var filesToCache = [
   './',
   './index.html',
