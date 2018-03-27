@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var dataCacheName = 'weatherData-v1';
-var cacheName = 'weatherPWA-step-6-7';
+var dataCacheName = 'weatherData-v2';
+var cacheName = 'weatherPWA-step-6-8';
 var filesToCache = [
   './',
   './index.html',
@@ -49,7 +49,7 @@ self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(keyList) {
       return Promise.all(keyList.map(function(key) {
-        if (key !== cacheName || key !== dataCacheName) {
+        if (key !== cacheName && key !== dataCacheName) {
           console.log('[ServiceWorker] Removing old cache', key);
           return caches.delete(key);
         }
