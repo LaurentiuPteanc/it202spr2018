@@ -18,5 +18,6 @@ var player = {latlng:{lat:41,lng:-88},
 }
 
 function updatePlayerLocation(position){
+    console.log(position)
     player.latlng = {lat:position.latitude,lng:position.longitude}
 }

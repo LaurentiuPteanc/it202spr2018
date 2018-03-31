@@ -40,23 +40,34 @@
       $("#battleScreen").hide();
       
     }); 
-    
+    function updatePlayerLocation(position){
+      console.log(position)
+      player.latlng = {lat:position.latitude,lng:position.longitude}
+      player.marker.remove();
+      player.marker = new google.maps.Marker({
+          position: player.latlng,
+          map: map,
+          title: 'Player',
+          icon: player.icon
+        });
+    }
     function success(pos) {
       updatePlayerLocation(pos);
+      console.log(pos);
     }
     
     function error(err) {
       console.warn('ERROR(' + err.code + '): ' + err.message);
+      console.log("failure");
+      getLocation();
     }
     
-    options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    };
+    options = {maximumAge:600000, timeout:5000, enableHighAccuracy: false};
     
     function initMap() {
-        var id=navigator.geolocation.watchPosition(success, error, options);
+        //var id=navigator.geolocation.watchPosition(success, error, options);
+        getLocation();
+        //console.log(id);
         //var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
@@ -77,6 +88,7 @@
       }
     function getLocation() {
       if (navigator.geolocation) {
+        console.log('here');
         navigator.geolocation.getCurrentPosition(updatePlayerLocation);
       } else {
         console.log("Geolocation is not supported by this browser.");
