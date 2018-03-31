@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Final Game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+</head>
+
+  <body>
+ 
+    <div id="mapScreen" style="height:90vh">
+      <h1>Main Game Screen</h1>
+      <div id="map" style="height:90%;width:100%;"></div>
+      <button type="button" id="inventory_btn" onclick="launchInventory()" >Inventory</button>
+    </div>
+    <div id="inventoryScreen">
+        <input type="text" id="query" placeholder="Search for a movie"/>
+        <button type="button" id="search" onclick="doSearch()" >Search</button>
+    </div>
+    <div id="battleScreen">
+        <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
+            <img class="card-img-top" src="" alt="Card image cap">
+            <div class="card-block">
+                <h3 class="card-title">Card title</h3>
+                <h5 name="headline">Some headline text</h5>
+                <p class="card-text" name="summ_short">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <a href="#" class="btn btn-primary">Read Full Review</a>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script>
+    $(document).ready(function(){ 
+      $("#mapScreen").show();
+      $("#inventoryScreen").hide();
+      $("#battleScreen").hide();
+      
+    }); 
+    
+    function success(pos) {
+      updatePlayerLocation(pos);
+    }
+    
+    function error(err) {
+      console.warn('ERROR(' + err.code + '): ' + err.message);
+    }
+    
+    options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0
+    };
+    
+    function initMap() {
+        var id=navigator.geolocation.watchPosition(success, error, options);
+        //var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: player.latlng
+        });
+        
+        player.icon = {url:"./img/player.png",
+                      scaledSize: new google.maps.Size(50, 50), // scaled size
+                      origin: new google.maps.Point(0,0), // origin
+                      anchor: new google.maps.Point(0, 0) // anchor
+                    };
+        player.marker = new google.maps.Marker({
+          position: player.latlng,
+          map: map,
+          title: 'Player',
+          icon: player.icon
+        });
+      }
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(updatePlayerLocation);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+    </script>
+
+    <script type="text/javascript" src="./js/player.js"></script>
+     <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
+    </script>
+  </body>
+</html>
+
