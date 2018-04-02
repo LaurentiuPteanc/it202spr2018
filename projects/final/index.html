@@ -122,8 +122,10 @@
           zoom: 30,
           center: player.latlng,
           styles: mapStyle,
-          disableDefaultUI:true
+          disableDefaultUI:true,
+          tilt:45
         });
+        
         getLocation();
         player.icon = {url:"./img/player.png",
                       scaledSize: new google.maps.Size(50, 50), // scaled size
