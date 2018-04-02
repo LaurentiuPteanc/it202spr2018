@@ -34,46 +34,44 @@
     </div>
     
     <script>
+    var map;
+    var player = {latlng:{lat:41,lng:-88},
+              marker:null,
+              animations:"player",
+              icon: null,
+              /*{url:"./img/player.png",
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0,0), // origin
+                    anchor: new google.maps.Point(0, 0) // anchor
+              },*/
+              inventory:{},
+              level:1,
+              attack:1,
+              defense:1,
+              armor:0,
+              weapon:0,
+              gold:0
+    
+}
+
     $(document).ready(function(){ 
       $("#mapScreen").show();
       $("#inventoryScreen").hide();
       $("#battleScreen").hide();
       
     }); 
-    function updatePlayerLocation(position){
-      console.log(position)
-      player.latlng = {lat:position.latitude,lng:position.longitude}
-      player.marker.remove();
-      player.marker = new google.maps.Marker({
-          position: player.latlng,
-          map: map,
-          title: 'Player',
-          icon: player.icon
-        });
-    }
-    function success(pos) {
-      updatePlayerLocation(pos);
-      console.log(pos);
-    }
-    
-    function error(err) {
-      console.warn('ERROR(' + err.code + '): ' + err.message);
-      console.log("failure");
-      getLocation();
-    }
-    
-    options = {maximumAge:600000, timeout:5000, enableHighAccuracy: false};
     
     function initMap() {
         //var id=navigator.geolocation.watchPosition(success, error, options);
-        getLocation();
+        
+        
         //console.log(id);
         //var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 12,
           center: player.latlng
         });
-        
+        getLocation();
         player.icon = {url:"./img/player.png",
                       scaledSize: new google.maps.Size(50, 50), // scaled size
                       origin: new google.maps.Point(0,0), // origin
@@ -94,9 +92,21 @@
         console.log("Geolocation is not supported by this browser.");
       }
     }
+    function updatePlayerLocation(position){
+      console.log(position)
+      console.log(player)
+      player.latlng = {lat:position.coords.latitude,lng:position.coords.longitude}
+      console.log(player);
+      player.marker.setMap(null);
+      player.marker = new google.maps.Marker({
+          position: player.latlng,
+          map: map,
+          title: 'Player',
+          icon: player.icon
+        });
+    }
     </script>
 
-    <script type="text/javascript" src="./js/player.js"></script>
      <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
     </script>
