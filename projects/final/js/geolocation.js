@@ -10,7 +10,7 @@ function error(err) {
 }
 
 options = {
-  enableHighAccuracy: true ,
+  enableHighAccuracy: false ,
   timeout: 600000,
   maximumAge: 0
 };
