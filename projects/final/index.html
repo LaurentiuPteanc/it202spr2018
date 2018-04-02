@@ -13,32 +13,79 @@
 
 </head>
 
-  <body>
+  <body style="height:97vh">
+    <div class="mdc-toolbar" style="height:7%;width:100%">
+      <div class="mdc-toolbar__row">
+        <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+          <a href="#" class="material-icons mdc-toolbar__menu-icon">menu</a>
+          <span class="mdc-toolbar__title">Final Game</span>
+        </section>
+      </div>
+    </div>
  
-    <div id="mapScreen" style="height:90vh">
-      <h1>Main Game Screen</h1>
-      <div id="map" style="height:90%;width:100%;"></div>
-      <button type="button" id="inventory_btn" onclick="launchInventory()" >Inventory</button>
+    <div id="mapScreen" style="height:93%;width:100%;">
+      <div id="map" style="height:100%;width:100%;"></div>
     </div>
     <div id="inventoryScreen">
-        <input type="text" id="query" placeholder="Search for a movie"/>
-        <button type="button" id="search" onclick="doSearch()" >Search</button>
-    </div>
-    <div id="battleScreen">
-        <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
+       <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
             <img class="card-img-top" src="" alt="Card image cap">
             <div class="card-block">
                 <h3 class="card-title">Card title</h3>
                 <h5 name="headline">Some headline text</h5>
                 <p class="card-text" name="summ_short">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Read Full Review</a>
             </div>
         </div>
+    </div>
+    <div id="battleScreen">
+
         
     </div>
     
     <script>
     var map;
+    var mapStyle = [
+  {
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.neighborhood",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+];
     var player = {latlng:{lat:41,lng:-88},
               marker:null,
               animations:"player",
@@ -73,7 +120,9 @@
         //var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 30,
-          center: player.latlng
+          center: player.latlng,
+          styles: mapStyle,
+          disableDefaultUI:true
         });
         getLocation();
         player.icon = {url:"./img/player.png",
