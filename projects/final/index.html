@@ -68,7 +68,7 @@
         //console.log(id);
         //var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 12,
+          zoom: 30,
           center: player.latlng
         });
         getLocation();
@@ -104,9 +104,11 @@
           title: 'Player',
           icon: player.icon
         });
+        
+      map.panTo(player.latlng);
     }
     </script>
-
+    <script type="text/javascript" src="./js/geolocation.js"></script>
      <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
     </script>
