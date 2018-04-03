@@ -14,30 +14,31 @@
 </head>
 
   <body style="height:97vh">
-    <div class="mdc-toolbar" style="height:7%;width:100%">
-      <div class="mdc-toolbar__row">
-        <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-          <a href="#" class="material-icons mdc-toolbar__menu-icon">menu</a>
-          <span class="mdc-toolbar__title">Final Game</span>
-        </section>
-      </div>
+    <div class="mdc-toolbar">
+            <div class="mdc-toolbar__row">
+              <div class="mdc-toolbar__section mdc-toolbar__section--shrink-to-fit mdc-toolbar__section--align-start">
+                <h2 class="mdc-toolbar__title">Final Game</h2>
+              </div>
+              <div class="mdc-toolbar__section mdc-toolbar__section--align-end">
+                <div>
+                  <nav id="toolbar-tab-bar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded">
+                    <a class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
+                    <a class="mdc-tab mdc-ripple-upgraded" href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
+                    <a class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquiptment()">Equiptment</a>
+                    <span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.333333, 1); visibility: visible;"></span>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
     </div>
  
     <div id="mapScreen" style="height:93%;width:100%;">
       <div id="map" style="height:100%;width:100%;"></div>
     </div>
     <div id="inventoryScreen">
-       <div class="card" name="cardTemplate" style="width: 20rem;" hidden=true>
-            <img class="card-img-top" src="" alt="Card image cap">
-            <div class="card-block">
-                <h3 class="card-title">Card title</h3>
-                <h5 name="headline">Some headline text</h5>
-                <p class="card-text" name="summ_short">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
     </div>
     <div id="battleScreen">
-
         
     </div>
     
@@ -113,11 +114,6 @@
     }); 
     
     function initMap() {
-        //var id=navigator.geolocation.watchPosition(success, error, options);
-        
-        
-        //console.log(id);
-        //var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
         map = new google.maps.Map(document.getElementById('map'), {
           zoom: 30,
           center: player.latlng,
@@ -161,6 +157,20 @@
         });
         
       map.panTo(player.latlng);
+    }
+    
+    function showInventory(){
+      $("#inventoryScreen").show();
+      $("#mapScreen").hide();
+      $("#equiptmentScreen").hide();
+      $("#battleScreen").hide();
+    }
+    
+    function showMap(){
+      $("#inventoryScreen").hide();
+      $("#mapScreen").show();
+      $("#equiptmentScreen").hide();
+      $("#battleScreen").hide();
     }
     </script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
