@@ -10,21 +10,83 @@
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
   <!-- the material icon font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  <style type="text/css">
+    .my-card__media {
+      background-image: url("https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg");
+      background-size: cover;
+    }
+    .my-card {
+  height: 150px;
+  width: 150px;
+}
+  </style>
 </head>
 <body class="mdc-typography">
-  <div id="cardTemplate" class="mdc-card demo-card">
-    <a class="mdc-card__primary-action" href="#">
-      <div class="mdc-card__media mdc-card__media--16-9 demo-card__media demo-card__media--16-9"></div>
-      <div class="demo-card__primary">
-        <h2 class="demo-card__title mdc-typography--title">Our Changing Planet</h2>
-        <h3 class="demo-card__subtitle mdc-typography--subheading1">by Kurt Wagner</h3>
+
+  <div class="demo-grid mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell">
+        <div class="mdc-component__section">
+          <div class="mdc-component__containers__primary">
+            <div class="mdc-card">
+              <section class="mdc-card__header">
+                <div class="demo-card__avatar"></div>
+                <div>
+                </div>
+              </section>
+              <section class="mdc-card__media my-card__media my-card">
+                <div class="material-image" width="21" height="262"> </div>
+              </section>
+              <section class="mdc-card__supporting-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</section>
+              <section class="mdc-card__actions"><button type="button" class="mdc-button mdc-button--raised mdc--theme-secondary">Button</button></section>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="demo-card__secondary mdc-typography--body1">
-        Visit ten places on our planet that are undergoing the biggest changes today.
+      <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell">
+      <div class="mdc-component__section">
+          <div class="mdc-component__containers__primary">
+            <div class="mdc-card">
+              <section class="mdc-card__header">
+                <div class="demo-card__avatar"></div>
+                <div>
+                  <p class="mdc-card__title">Title</p>
+                  <p class="mdc-card__subtitle">Subhead</p>
+                </div>
+              </section>
+              <section class="mdc-card__media">
+                <div class="material-image" width="262" height="262">
+                </div>
+              </section>
+              <section class="mdc-card__supporting-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</section>
+              <section class="mdc-card__actions"><button type="button" class="mdc-button mdc-button--raised mdc--theme-secondary">Button</button></section>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
+      <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-1">
+      <div class="mdc-component__section">
+          <div class="mdc-component__containers__primary">
+            <div class="mdc-card">
+              <section class="mdc-card__header">
+                <div class="demo-card__avatar"></div>
+                <div>
+                  <p class="mdc-card__title">Title</p>
+                  <p class="mdc-card__subtitle">Subhead</p>
+                </div>
+              </section>
+              <section class="mdc-card__media">
+                <div class="material-image" width="262" height="262"> </div>
+              </section>
+              <section class="mdc-card__supporting-text">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</section>
+              <section class="mdc-card__actions"><button type="button" class="mdc-button mdc-button--raised mdc--theme-secondary">Button</button></section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
   
 </body>
