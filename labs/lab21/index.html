@@ -9,15 +9,28 @@
 </head>
 
 <body>
-    <div id="text">hello its a me mario</div>
     <canvas id="canvas" width="1536" height="718"></canvas>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
     <script>
-      var synth = window.speechSynthesis;
+      
       
         function checkBorderCollision(player,canvas){
+            if(player.x+player.r <=0){
+                player.x = player.r;
+            }
+            if(player.x-player.r >= canvas.width){
+                player.x = canvas.width-player.r;
+            }
+            
+            if(player.y+player.r <= 0){
+                player.y = player.r;
+            }
+            if(player.y-player.r >= canvas.height){
+                player.y = canvas.height-player.r;
+            }
+
             if(player.x-player.r <=0 || player.x+player.r >= canvas.width){
                 player.xSpeed = -player.xSpeed;
                 //player.x = -player.x;
@@ -27,6 +40,7 @@
                 player.ySpeed = -player.ySpeed;    
                 //player.y = -player.y;
             }
+            
         }
       
         $(document).ready(function() {
@@ -62,9 +76,11 @@
                     console.log("collision");
 
                     //TODO:  add vibration upon collision
-                    window.navigator.vibrate([100, 100, 100]);
+                    if("vibrate" in navigator){
+                        window.navigator.vibrate([100, 100, 100]);
+                    }
                     //TODO:  add speechSynthesis notification of collision
-
+                    var synth = window.speechSynthesis;
                     var collisionUtter = new SpeechSynthesisUtterance("Collided");
                     console.log(collisionUtter);
                     collisionUtter.voice = synth.getVoices()[2];
