@@ -35,6 +35,7 @@
  
     <div id="mapScreen" style="height:93%;width:100%;">
       <div id="map" style="height:100%;width:100%;"></div>
+      <input type="button" onclick="getPlaces()"
     </div>
     <div id="inventoryScreen">
     </div>
@@ -171,6 +172,24 @@
       $("#mapScreen").show();
       $("#equiptmentScreen").hide();
       $("#battleScreen").hide();
+    }
+    
+    
+    function getPlaces(){
+      var baseUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
+      var lat = player.latlng.lat;//'-33.8670'
+      var lng = player.latlng.lng;//'151.1957'
+      var radius = '500';
+      var type = 'bank';
+      var name = '';
+      var key = 'AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg';
+      
+     // https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670,151.1957&radius=500&types=food&name=cruise&key=YOUR_API_KEY
+     
+     $.get(baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
+      function(data){
+        console.log(data);
+      });
     }
     </script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
