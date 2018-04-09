@@ -35,7 +35,8 @@
  
     <div id="mapScreen" style="height:93%;width:100%;">
       <div id="map" style="height:100%;width:100%;"></div>
-      <input type="button" onclick="getPlaces()">
+      <button onclick="getPlaces()" >getPlaces</button>
+      <button onclick="getCrimes()" >getCrimes</button>
     </div>
     <div id="inventoryScreen">
     </div>
@@ -88,7 +89,7 @@
     ]
   }
 ];
-    var player = {latlng:{lat:41,lng:-88},
+    var player = {latlng:{lat:41.874010999999996,lng:-87.6526106},
               marker:null,
               animations:"player",
               icon: null,
@@ -134,6 +135,11 @@
           map: map,
           title: 'Player',
           icon: player.icon
+        });
+        
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getCrimes(),
+          map: map
         });
       }
     function getLocation() {
@@ -186,10 +192,41 @@
       
      // https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670,151.1957&radius=500&types=food&name=cruise&key=YOUR_API_KEY
      
-     $.get(baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
+      $.ajax({
+        url:baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
+        headers: {
+         'Access-Control-Allow-Origin':'*'
+        },
+        dataType: 'json',
+        method:'GET',
+        success: function(data){
+         console.log(data);
+        }
+         
+      });
+     /*$.get(baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
       function(data){
         console.log(data);
       });
+      $.get;*/
+    }
+    
+    function getCrimes(){
+      $.get('https://data.cityofchicago.org/resource/6zsd-86xi.json?$where=date%3E%222018-01-01T00:00:00.000%22',
+        function(data){
+          console.log(data);
+          var crime_locs = [];
+          
+          $.each(data.location.coordinates, function(i,v){
+            console.log(v);
+            crime_locs.push(new google.maps.LatLng(v[1], v[0]));
+          });
+          
+          console.log(crime_locs)
+          
+          return crime_locs;
+          
+        });
     }
     </script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
