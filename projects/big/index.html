@@ -94,7 +94,7 @@
               animations:"player",
               icon: null,
               /*{url:"./img/player.png",
-                    scaledSize: new google.maps.Size(50, 50), // scaled size
+              scaledSize: new google.maps.Size(50, 50), // scaled size
                     origin: new google.maps.Point(0,0), // origin
                     anchor: new google.maps.Point(0, 0) // anchor
               },*/
@@ -136,11 +136,7 @@
           title: 'Player',
           icon: player.icon
         });
-        
-        heatmap = new google.maps.visualization.HeatmapLayer({
-          data: getCrimes(),
-          map: map
-        });
+        getCrimes();
       }
     function getLocation() {
       if (navigator.geolocation) {
@@ -226,6 +222,10 @@
           
           return crime_locs;
           
+          heatmap = new google.maps.visualization.HeatmapLayer({
+            data: crime_locs,
+            map: map
+          });
         });
     }
     </script>
