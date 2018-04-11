@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Final Game</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <!-- the MCW stylesheet-->
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <!-- the material icon font-->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+
+  <body style="height:97vh">
+    <div class="mdc-toolbar">
+            <div class="mdc-toolbar__row">
+              <div class="mdc-toolbar__section mdc-toolbar__section--shrink-to-fit mdc-toolbar__section--align-start">
+                <h2 class="mdc-toolbar__title">Final Game</h2>
+              </div>
+              <div class="mdc-toolbar__section mdc-toolbar__section--align-end">
+                <div>
+                  <nav id="toolbar-tab-bar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded">
+                    <a class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
+                    <a class="mdc-tab mdc-ripple-upgraded" href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
+                    <a class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquiptment()">Equiptment</a>
+                    <span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.333333, 1); visibility: visible;"></span>
+                  </nav>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+ 
+    <div id="mapScreen" style="height:93%;width:100%;">
+      <div id="map" style="height:100%;width:100%;"></div>
+      <button onclick="getPlaces()" >getPlaces</button>
+      <button onclick="getCrimes()" >getCrimes</button>
+    </div>
+    <div id="inventoryScreen">
+    </div>
+    <div id="battleScreen">
+        
+    </div>
+    
+    <script>
+    var map;
+    var mapStyle = [
+  {
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.neighborhood",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.business",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  }
+];
+    var player = {latlng:{lat:41.874010999999996,lng:-87.6526106},
+              marker:null,
+              animations:"player",
+              icon: null,
+              /*{url:"./img/player.png",
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0,0), // origin
+                    anchor: new google.maps.Point(0, 0) // anchor
+              },*/
+              inventory:{},
+              level:1,
+              attack:1,
+              defense:1,
+              armor:0,
+              weapon:0,
+              gold:0
+    
+}
+
+    $(document).ready(function(){ 
+      $("#mapScreen").show();
+      $("#inventoryScreen").hide();
+      $("#battleScreen").hide();
+      
+    }); 
+    
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 30,
+          center: player.latlng,
+          styles: mapStyle,
+          disableDefaultUI:true,
+          tilt:45
+        });
+        
+        getLocation();
+        player.icon = {url:"./img/player.png",
+                      scaledSize: new google.maps.Size(50, 50), // scaled size
+                      origin: new google.maps.Point(0,0), // origin
+                      anchor: new google.maps.Point(0, 0) // anchor
+                    };
+        player.marker = new google.maps.Marker({
+          position: player.latlng,
+          map: map,
+          title: 'Player',
+          icon: player.icon
+        });
+        
+        heatmap = new google.maps.visualization.HeatmapLayer({
+          data: getCrimes(),
+          map: map
+        });
+      }
+    function getLocation() {
+      if (navigator.geolocation) {
+        console.log('here');
+        navigator.geolocation.getCurrentPosition(updatePlayerLocation);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+    function updatePlayerLocation(position){
+      console.log(position)
+      console.log(player)
+      player.latlng = {lat:position.coords.latitude,lng:position.coords.longitude}
+      console.log(player);
+      player.marker.setMap(null);
+      player.marker = new google.maps.Marker({
+          position: player.latlng,
+          map: map,
+          title: 'Player',
+          icon: player.icon
+        });
+        
+      map.panTo(player.latlng);
+    }
+    
+    function showInventory(){
+      $("#inventoryScreen").show();
+      $("#mapScreen").hide();
+      $("#equiptmentScreen").hide();
+      $("#battleScreen").hide();
+    }
+    
+    function showMap(){
+      $("#inventoryScreen").hide();
+      $("#mapScreen").show();
+      $("#equiptmentScreen").hide();
+      $("#battleScreen").hide();
+    }
+    
+    
+    function getPlaces(){
+      var baseUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
+      var lat = player.latlng.lat;//'-33.8670'
+      var lng = player.latlng.lng;//'151.1957'
+      var radius = '500';
+      var type = 'bank';
+      var name = '';
+      var key = 'AIzaSyAhKjUtfMz2x_JzgOQe5sPu1uBno2ygk1U';
+      
+     // https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670,151.1957&radius=500&types=food&name=cruise&key=YOUR_API_KEY
+     
+      $.ajax({
+        url:baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
+        headers: {
+         'Access-Control-Allow-Origin':'*'
+        },
+        dataType: 'json',
+        method:'GET',
+        success: function(data){
+         console.log(data);
+        }
+         
+      });
+     /*$.get(baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
+      function(data){
+        console.log(data);
+      });
+      $.get;*/
+    }
+    
+    function getCrimes(){
+      $.get('https://data.cityofchicago.org/resource/6zsd-86xi.json?$where=date%3E%222018-01-01T00:00:00.000%22',
+        function(data){
+          console.log(data);
+          var crime_locs = [];
+          
+          $.each(data.location.coordinates, function(i,v){
+            console.log(v);
+            crime_locs.push(new google.maps.LatLng(v[1], v[0]));
+          });
+          
+          console.log(crime_locs)
+          
+          return crime_locs;
+          
+        });
+    }
+    </script>
+    <script type="text/javascript" src="./js/geolocation.js"></script>
+     <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
+    </script>
+    <!-- Material Components Script -->
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
+  </body>
+</html>
+
