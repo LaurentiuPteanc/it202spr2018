@@ -9,7 +9,7 @@
         <video id="camera" width="200" height="200" controls autoplay></video>
         <button id="picBtn">Take Picture</button>
         <canvas id="image" width="200" height="200"></canvas>
-        <canvas id="template" width="100" height="100"></canvas>
+        <div id="collage"></div>
     
         
     <script>
@@ -34,7 +34,7 @@
         frameContext.drawImage(camera, 0, 0,camera.width,camera.height);//, frameCanvas.width, frameCanvas.height);
         var type = 'FACE_DETECTION';
         var visionAPIEndpoint = 'https://vision.googleapis.com/v1/images:annotate'
-        var requestBody = {
+        var faceRequest = {
                 "requests":[
                   {
                     "image":{
@@ -49,11 +49,26 @@
                   }
                 ]
         }
+        var tagRequest = {
+                "requests":[
+                  {
+                    "image":{
+                      "content":frameCanvas.toDataURL().split(",")[1]
+                    },
+                    "features":[
+                      {
+                        "type": 'LABEL_DETECTION',
+                        "maxResults":10
+                      }
+                    ]
+                  }
+                ]
+        }
         $.ajax({
             method:"POST",
             contentType:"application/json",
             url:visionAPIEndpoint+"?key="+key,
-            data:JSON.stringify(requestBody)})
+            data:JSON.stringify(faceRequest)})
             .done(function(data){
                 console.log(data)
                 if(data.responses[0].faceAnnotations != null){
@@ -61,8 +76,10 @@
                     var corners = data.responses[0].faceAnnotations[0].boundingPoly.vertices;
                     console.log(corners)
                     
+                    var container = document.createElement('div')
                     var clone = document.createElement('canvas');//$('#template').clone();
-                    document.body.appendChild(clone);
+                    container.appendChild(clone)
+                    document.getElementById('collage').prepend(container);
                     
                     var cloneContext = clone.getContext('2d');
                     console.log(cloneContext)
@@ -75,7 +92,15 @@
                     //clone.setAttribute("height",faceHeight);
                     //clone.setAttribute("width",faceWidth);
                   
-                    
+                    $.ajax({
+                        method:"POST",
+                        contentType:"application/json",
+                        url:visionAPIEndpoint+"?key="+key,
+                        data:JSON.stringify(tagRequest)})
+                        .done(function(data){
+                            console.log(data)
+                        })
+            
                 }
                 else
                 {
