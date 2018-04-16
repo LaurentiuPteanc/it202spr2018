@@ -318,6 +318,13 @@
           var battleContext = battleCanvas.getContext('2d');
           battleContext.canvas.height = window.screen.height*.66;
           battleContext.canvas.width = window.screen.width;
+          var image = new Image;
+          //$.get('./img/background.jpg');
+          image.src = './img/background.jpg'
+          console.log(image)
+          image.onload = function(){
+            battleContext.drawImage(image,0,0,battleContext.canvas.width,battleContext.canvas.height)
+          }
           console.log(battleContext)
           console.log(window.screen.height)
           console.log(window.screen.width)
