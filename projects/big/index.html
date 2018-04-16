@@ -43,6 +43,17 @@
     <div id="battleScreen" height="100%" width="100%">
         <canvas id="battleCanvas" height="75%" width="100%"></canvas>
         
+        <!--Buttons to add:
+              Main:
+                Fight,
+                Equipment,
+                Flee,
+              Fight: ?
+                Weapon, ?
+              Equipment:
+                List usable equipment
+              
+              -->
     </div>
     
     <script>
@@ -93,6 +104,7 @@
     var monsters = [];
     var frames = 0;
     var player = {latlng:{lat:41.874010999999996,lng:-87.6526106},
+              district:'12',
               marker:null,
               animations:"player",
               icon: null,
@@ -110,12 +122,13 @@
               gold:0
     
 }
+    getDistrict(player.latlng);
+    console.log(player.district)
 
     $(document).ready(function(){ 
       $("#mapScreen").show();
       $("#inventoryScreen").hide();
       $("#battleScreen").hide();
-      
     }); 
     
     function initMap() {
@@ -220,9 +233,43 @@
       });
       $.get;*/
     }
+    function getDistrict(pos){
+      var url='https://data.cityofchicago.org/resource/24zt-jpfn.json';
+      var query = '?$select=dist_num,simplify_preserve_topology(the_geom, 0.001) as the_geom'
     
+      $.get(url+query,function(data){
+        $.each(data,function(i,v){
+          //console.log(v.the_geom.coordinates[0][0])
+          if(inside([pos.lng,pos.lat],v.the_geom.coordinates[0][0]) == true){
+            console.log('true '+v.dist_num);
+            player.district=''+v.dist_num
+          }
+        })
+        
+      })
+      
+      
+    }
+    function inside(point, vs) {
+        // ray-casting algorithm based on
+        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+        
+        var x = point[0], y = point[1];
+    
+        var inside = false;
+        for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+            var xi = vs[i][0], yi = vs[i][1];
+            var xj = vs[j][0], yj = vs[j][1];
+    
+            var intersect = ((yi > y) != (yj > y))
+                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+            if (intersect) inside = !inside;
+        }
+    
+        return inside;
+    };
     function getCrimes(){
-      $.get('https://data.cityofchicago.org/resource/6zsd-86xi.json?$query=select * where date>"2018-01-01T00:00:00.000" and location is not null',
+      $.get('https://data.cityofchicago.org/resource/6zsd-86xi.json?$query=select * where date>"2018-01-01T00:00:00.000" and location is not null and district = "'+'0'+player.district+'"',
         function(data){
           console.log(data);
           var crime_locs = [];
@@ -269,9 +316,11 @@
           showBattle();
           var battleCanvas = $('#battleCanvas')[0];
           var battleContext = battleCanvas.getContext('2d');
-          battleContext.canvas.height = window.screen.height*.75;
+          battleContext.canvas.height = window.screen.height*.66;
           battleContext.canvas.width = window.screen.width;
           console.log(battleContext)
+          console.log(window.screen.height)
+          console.log(window.screen.width)
         })
         var mLevel = Math.floor(Math.random()*3+1);
         var mAttack = mLevel;
@@ -313,6 +362,8 @@
       
       
     }
+    
+    
     </script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
      <script async defer
@@ -321,6 +372,7 @@
 
     <!-- Material Components Script -->
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
+    <script>mdc.autoInit();</script>
   </body>
 </html>
 
