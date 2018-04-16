@@ -14,7 +14,7 @@
 </head>
 
   <body style="height:97vh">
-    <div class="mdc-toolbar">
+    <div id="toolbar" class="mdc-toolbar">
             <div class="mdc-toolbar__row">
               <div class="mdc-toolbar__section mdc-toolbar__section--shrink-to-fit mdc-toolbar__section--align-start">
                 <h2 class="mdc-toolbar__title">Final Game</h2>
@@ -40,7 +40,8 @@
     </div>
     <div id="inventoryScreen">
     </div>
-    <div id="battleScreen">
+    <div id="battleScreen" height="100%" width="100%">
+        <canvas id="battleCanvas" height="75%" width="100%"></canvas>
         
     </div>
     
@@ -170,6 +171,7 @@
       $("#mapScreen").hide();
       $("#equiptmentScreen").hide();
       $("#battleScreen").hide();
+      $("#toolbar").show();
     }
     
     function showMap(){
@@ -177,6 +179,7 @@
       $("#mapScreen").show();
       $("#equiptmentScreen").hide();
       $("#battleScreen").hide();
+      $("#toolbar").show();
     }
     
     function showBattle(){
@@ -184,6 +187,7 @@
       $("#mapScreen").hide();
       $("#equiptmentScreen").hide();
       $("#battleScreen").show();
+      $("#toolbar").hide();
     }
     
     
@@ -261,8 +265,13 @@
           icon: mIcon
         });
         
-        marker.addListener('click',function(){
-          
+        mMarker.addListener('click',function(){
+          showBattle();
+          var battleCanvas = $('#battleCanvas')[0];
+          var battleContext = battleCanvas.getContext('2d');
+          battleContext.canvas.height = window.screen.height*.75;
+          battleContext.canvas.width = window.screen.width;
+          console.log(battleContext)
         })
         var mLevel = Math.floor(Math.random()*3+1);
         var mAttack = mLevel;
