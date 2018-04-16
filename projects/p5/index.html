@@ -56,6 +56,16 @@
             data:JSON.stringify(requestBody)})
             .done(function(data){
                 console.log(data)
+                var corners = data.responses[0].faceAnnotations[0].boundingPoly.vertices;
+                console.log(corners)
+                
+                var clone = $('#template').clone();
+                clone.appendTo(clone.parent());
+                
+                var cloneContext = clone[0].getContext('2d');
+                console.log(cloneContext)
+                document.getElementById('template').getContext('2d').putImageData(frameContext.getImageData(0,0,frameCanvas.width,frameCanvas.height),0,0)//, 0, 0,camera.width,camera.height);
+                
             })
       })
     </script>
