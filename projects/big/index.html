@@ -13,6 +13,9 @@
   <style type="text/css">
     body{   
     margin:0 auto; }
+    .hide{
+      display:none;
+    }
   </style>
 </head>
 
@@ -27,7 +30,7 @@
                   <nav id="toolbar-tab-bar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded">
                     <a class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
                     <a class="mdc-tab mdc-ripple-upgraded" href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
-                    <a class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquiptment()">Equiptment</a>
+                    <a class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipent()">Equipment</a>
                     <span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.333333, 1); visibility: visible;"></span>
                   </nav>
                 </div>
@@ -58,7 +61,8 @@
               
               -->
     </div>
-    
+    <img id="background" class='hide' src="./img/background.jpg">
+    <img id="playerImg" class='hide' src="./img/player.png">
     <script>
     var map;
     var mapStyle = [
@@ -185,7 +189,7 @@
     function showInventory(){
       $("#inventoryScreen").show();
       $("#mapScreen").hide();
-      $("#equiptmentScreen").hide();
+      $("#equipmentScreen").hide();
       $("#battleScreen").hide();
       $("#toolbar").show();
     }
@@ -193,7 +197,7 @@
     function showMap(){
       $("#inventoryScreen").hide();
       $("#mapScreen").show();
-      $("#equiptmentScreen").hide();
+      $("#equipmentScreen").hide();
       $("#battleScreen").hide();
       $("#toolbar").show();
     }
@@ -201,7 +205,7 @@
     function showBattle(){
       $("#inventoryScreen").hide();
       $("#mapScreen").hide();
-      $("#equiptmentScreen").hide();
+      $("#equipmentScreen").hide();
       $("#battleScreen").show();
       $("#toolbar").hide();
     }
@@ -319,15 +323,16 @@
           showBattle();
           var battleCanvas = $('#battleCanvas')[0];
           var battleContext = battleCanvas.getContext('2d');
-          battleContext.canvas.height = window.screen.height*.66;
+          battleContext.canvas.height = window.screen.height*.5;
           battleContext.canvas.width = window.screen.width;
-          var image = new Image;
-          //$.get('./img/background.jpg');
-          image.src = './img/background.jpg'
-          console.log(image)
-          image.onload = function(){
-            battleContext.drawImage(image,0,0,battleContext.canvas.width,battleContext.canvas.height)
-          }
+
+          
+          
+          battleContext.drawImage($('#background')[0],0,0,battleCanvas.width,battleCanvas.height)
+          battleContext.drawImage($('#playerImg')[0],50,battleCanvas.height-100,100,100)
+          
+          
+          
           console.log(battleContext)
           console.log(window.screen.height)
           console.log(window.screen.width)
