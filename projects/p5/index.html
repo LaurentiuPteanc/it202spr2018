@@ -7,8 +7,9 @@
     </head>
     <body>
         <video id="camera" width="200" height="200" controls autoplay></video>
+        <canvas id="image" width="200" height="200" hidden="true"></canvas>
+        <br>
         <button id="picBtn">Take Picture</button>
-        <canvas id="image" width="200" height="200"></canvas>
         <div id="collage"></div>
     
         
@@ -88,9 +89,10 @@
                     var faceWidth = corners[1].x-TL.x;
                     var faceHeight = corners[3].y-TL.y;
                     console.log(faceWidth)
+                    clone.setAttribute("height",faceHeight);
+                    clone.setAttribute("width",faceWidth);
                     cloneContext.putImageData(frameContext.getImageData(TL.x,TL.y,faceWidth,faceHeight),0,0)//, 0, 0,camera.width,camera.height);
-                    //clone.setAttribute("height",faceHeight);
-                    //clone.setAttribute("width",faceWidth);
+                    
                   
                     $.ajax({
                         method:"POST",
