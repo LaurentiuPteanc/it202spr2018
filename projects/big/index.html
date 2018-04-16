@@ -89,6 +89,8 @@
     ]
   }
 ];
+    var monsters = [];
+    var frames = 0;
     var player = {latlng:{lat:41.874010999999996,lng:-87.6526106},
               marker:null,
               animations:"player",
@@ -137,6 +139,7 @@
           icon: player.icon
         });
         getCrimes();
+        mapAnimation();
       }
     function getLocation() {
       if (navigator.geolocation) {
@@ -174,6 +177,13 @@
       $("#mapScreen").show();
       $("#equiptmentScreen").hide();
       $("#battleScreen").hide();
+    }
+    
+    function showBattle(){
+      $("#inventoryScreen").hide();
+      $("#mapScreen").hide();
+      $("#equiptmentScreen").hide();
+      $("#battleScreen").show();
     }
     
     
@@ -214,7 +224,7 @@
           var crime_locs = [];
           
           $.each(data, function(i,v){
-            console.log(v);
+            //console.log(v);
             crime_locs.push(new google.maps.LatLng(v.location.coordinates[1], v.location.coordinates[0]));
           });
           
@@ -226,7 +236,73 @@
             data: crime_locs,
             map: map
           });
+          
+          heatmap.set('radius',200);
         });
+    }
+    
+    
+    function mapAnimation(){
+      //console.log("here")
+      
+      var spawnMonster = Math.random()*100;
+      //console.log(spawnMonster);
+      if(spawnMonster < 1){
+        var mLatlng = {lat:player.latlng.lat + Math.random() * (.0001-(-.0001)) -.0001,lng:player.latlng.lng + Math.random() * (.0001-(-.0001)) -.0001};
+        var mIcon = {url:"./img/monster.png",
+                      scaledSize: new google.maps.Size(50, 50), // scaled size
+                      origin: new google.maps.Point(0,0), // origin
+                      anchor: new google.maps.Point(0, 0) // anchor
+                    };
+        var mMarker = new google.maps.Marker({
+          position: mLatlng,
+          map: map,
+          title: 'Monster',
+          icon: mIcon
+        });
+        
+        marker.addListener('click',function(){
+          
+        })
+        var mLevel = Math.floor(Math.random()*3+1);
+        var mAttack = mLevel;
+        var mDefense = mLevel;
+        var mGold = 3*mLevel;
+        
+        monsters.push({
+          latlng:mLatlng,
+          marker:mMarker,
+          icon:mIcon,
+          level:mLevel,
+          attack:mAttack, 
+          defense:mDefense,
+          gold:mGold
+        })
+      }
+      //Move monsters
+      /*if(frames%30==0){
+        $.each(monsters,function(i,v){
+          v.latlng = {lat:v.latlng.lat + Math.random() * (.000001-(-.000001)) -.000001,lng:v.latlng.lng + Math.random() * (.000001-(-.000001)) -.000001};
+          
+          mMarker = new google.maps.Marker({
+            position: v.latlng,
+            map: map,
+            title: 'Monster',
+            icon: v.icon
+          });
+          
+          v.marker.setMap(null);
+          v.marker=mMarker;
+          
+        })
+      }
+      frames++;
+      if(frames == 60){
+        frames = 1;
+      }*/
+      window.requestAnimationFrame(mapAnimation);
+      
+      
     }
     </script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
