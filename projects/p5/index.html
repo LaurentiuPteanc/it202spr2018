@@ -56,21 +56,33 @@
             data:JSON.stringify(requestBody)})
             .done(function(data){
                 console.log(data)
-                var corners = data.responses[0].faceAnnotations[0].boundingPoly.vertices;
-                console.log(corners)
-                
-                var clone = document.createElement('canvas');//$('#template').clone();
-                document.body.appendChild(clone);
-                
-                var cloneContext = clone.getContext('2d');
-                console.log(cloneContext)
-                //document.getElementById('template').getContext('2d')
-                var TL = corners[0];
-                var faceWidth = corners[1].x-TL.x;
-                var faceHeight = corners[3].y-TL.y;
-                console.log(faceWidth)
-                cloneContext.putImageData(frameContext.getImageData(TL.x,TL.y,faceWidth,faceHeight),0,0)//, 0, 0,camera.width,camera.height);
-                
+                if(data.responses[0].faceAnnotations != null){
+                    console.log('not null')
+                    var corners = data.responses[0].faceAnnotations[0].boundingPoly.vertices;
+                    console.log(corners)
+                    
+                    var clone = document.createElement('canvas');//$('#template').clone();
+                    document.body.appendChild(clone);
+                    
+                    var cloneContext = clone.getContext('2d');
+                    console.log(cloneContext)
+                    //document.getElementById('template').getContext('2d')
+                    var TL = corners[0];
+                    var faceWidth = corners[1].x-TL.x;
+                    var faceHeight = corners[3].y-TL.y;
+                    console.log(faceWidth)
+                    cloneContext.putImageData(frameContext.getImageData(TL.x,TL.y,faceWidth,faceHeight),0,0)//, 0, 0,camera.width,camera.height);
+                    //clone.setAttribute("height",faceHeight);
+                    //clone.setAttribute("width",faceWidth);
+                  
+                    
+                }
+                else
+                {
+                    console.log('null')
+                    alert('No Face Detected')
+                }
+                                  
             })
       })
     </script>
