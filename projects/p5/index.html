@@ -99,10 +99,19 @@
                         data:JSON.stringify(tagRequest)})
                         .done(function(data){
                             console.log(data)
+                            var ul = document.createElement('ul');
+                            container.appendChild(ul)
+                            console.log(data.responses[0].labelAnnotations)
+                            $.each(data.responses[0].labelAnnotations,function(i,v){
+                                console.log(v)
+                                var li = document.createElement('li')
+                                li.innerHTML =  v.description//'<p>' + v.description + '</p>'
+                                ul.appendChild(li)
+                            })
                         })
-            
+                        
                 }
-                else
+                else 
                 {
                     console.log('null')
                     alert('No Face Detected')
