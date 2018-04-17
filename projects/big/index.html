@@ -27,7 +27,7 @@
               </div>
               <div class="mdc-toolbar__section mdc-toolbar__section--align-end">
                 <div>
-                  <nav id="toolbar-tab-bar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded">
+                  <nav id="toolbar-tab-bar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
                     <a class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
                     <a class="mdc-tab mdc-ripple-upgraded" href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
                     <a class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipent()">Equipment</a>
@@ -48,6 +48,7 @@
     </div>
     <div id="battleScreen" height="100%" width="100%">
         <canvas id="battleCanvas" height="75%" width="100%"></canvas>
+        <button id="fightBtn" onclick="fightAction()">Fight</button>
         
         <!--Buttons to add:
               Main:
@@ -325,11 +326,20 @@
           var battleContext = battleCanvas.getContext('2d');
           battleContext.canvas.height = window.screen.height*.5;
           battleContext.canvas.width = window.screen.width;
+          
+          $.each(monsters,function(i,v){
+            if(v.marker==mMarker){
+              console.log('Found Monster Marker')
+            }
+            else{
+              console.log('Not this marker')
+            }
+          })
 
           
           
           battleContext.drawImage($('#background')[0],0,0,battleCanvas.width,battleCanvas.height)
-          battleContext.drawImage($('#playerImg')[0],50,battleCanvas.height-100,100,100)
+          battleContext.drawImage($('#playerImg')[0],battleCanvas.width*.2,battleCanvas.height*.45,battleCanvas.width*.28,battleCanvas.height*.55)
           
           
           
@@ -375,6 +385,10 @@
       }*/
       window.requestAnimationFrame(mapAnimation);
       
+      
+    }
+    
+    function fightAction(){
       
     }
     
