@@ -20,23 +20,14 @@
 </head>
 
   <body style="height:97vh">
-    <div id="toolbar" class="mdc-toolbar">
-            <div class="mdc-toolbar__row">
-              <div class="mdc-toolbar__section mdc-toolbar__section--shrink-to-fit mdc-toolbar__section--align-start">
-                <h2 class="mdc-toolbar__title">Final Game</h2>
-              </div>
-              <div class="mdc-toolbar__section mdc-toolbar__section--align-end">
-                <div>
-                  <nav id="toolbar-tab-bar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
-                    <a class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
-                    <a class="mdc-tab mdc-ripple-upgraded" href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
-                    <a class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipent()">Equipment</a>
-                    <span class="mdc-tab-bar__indicator" style="transform: translateX(0px) scale(0.333333, 1); visibility: visible;"></span>
-                  </nav>
-                </div>
-              </div>
-            </div>
-          </div>
+
+    <nav id="toolbar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
+      <a id="mapTab" class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
+      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
+      <a id="equipmentTab" class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipment()">Equipment</a>
+
+    </nav>
+
     
  
     <div id="mapScreen" style="height:93%;width:100%;">
@@ -189,16 +180,33 @@
     
     function showInventory(){
       $("#inventoryScreen").show();
+      $("#inventoryTab").addClass('mdc-tab--active')
       $("#mapScreen").hide();
+      $("#mapTab").removeClass('mdc-tab--active')
       $("#equipmentScreen").hide();
+      $("#equipmentTab").removeClass('mdc-tab--active')
       $("#battleScreen").hide();
       $("#toolbar").show();
     }
     
     function showMap(){
       $("#inventoryScreen").hide();
+      $("#inventoryTab").removeClass('mdc-tab--active')
       $("#mapScreen").show();
+      $("#mapTab").addClass('mdc-tab--active')
       $("#equipmentScreen").hide();
+      $("#equipmentTab").removeClass('mdc-tab--active')
+      $("#battleScreen").hide();
+      $("#toolbar").show();
+    }
+    
+    function showEquipment(){
+      $("#inventoryScreen").hide();
+      $("#inventoryTab").removeClass('mdc-tab--active')
+      $("#mapScreen").hide();
+      $("#mapTab").removeClass('mdc-tab--active')
+      $("#equipmentScreen").show();
+      $("#equipmentTab").addClass('mdc-tab--active')
       $("#battleScreen").hide();
       $("#toolbar").show();
     }
