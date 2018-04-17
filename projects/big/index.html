@@ -102,6 +102,10 @@
 ];
     var monsters = [];
     var frames = 0;
+    var curAnimation = 'map';
+    var battleCanvas = $('#battleCanvas')[0];
+    var curMonster = 0;
+    var battleContext = battleCanvas.getContext('2d');
     var player = {latlng:{lat:41.874010999999996,lng:-87.6526106},
               district:'12',
               marker:null,
@@ -114,6 +118,7 @@
               },*/
               inventory:{},
               level:1,
+              health:50,
               attack:1,
               defense:1,
               armor:0,
@@ -152,7 +157,7 @@
           icon: player.icon
         });
         getCrimes();
-        mapAnimation();
+        animate();
       }
     function getLocation() {
       if (navigator.geolocation) {
@@ -308,6 +313,24 @@
         });
     }
     
+    function animate(){
+      if(curAnimation == 'map'){
+        mapAnimation();
+      }
+      else {
+        battleAnimation();
+      }
+    }
+    
+    function battleAnimation(){
+      
+      battleContext.drawImage($('#background')[0],0,0,battleCanvas.width,battleCanvas.height)
+      battleContext.drawImage($('#playerImg')[0],battleCanvas.width*.2,battleCanvas.height*.45,battleCanvas.width*.28,battleCanvas.height*.55)
+    
+      
+      
+      window.requestAnimationFrame(animate);
+    }
     
     function mapAnimation(){
       //console.log("here")
@@ -330,13 +353,15 @@
         
         mMarker.addListener('click',function(){
           showBattle();
-          var battleCanvas = $('#battleCanvas')[0];
-          var battleContext = battleCanvas.getContext('2d');
+          curAnimation = 'battle';
+          
+          
           battleContext.canvas.height = window.screen.height*.5;
           battleContext.canvas.width = window.screen.width;
           
           $.each(monsters,function(i,v){
             if(v.marker==mMarker){
+              curMonster = i;
               console.log('Found Monster Marker')
             }
             else{
@@ -344,27 +369,19 @@
             }
           })
 
-          
-          
-          battleContext.drawImage($('#background')[0],0,0,battleCanvas.width,battleCanvas.height)
-          battleContext.drawImage($('#playerImg')[0],battleCanvas.width*.2,battleCanvas.height*.45,battleCanvas.width*.28,battleCanvas.height*.55)
-          
-          
-          
-          console.log(battleContext)
-          console.log(window.screen.height)
-          console.log(window.screen.width)
         })
         var mLevel = Math.floor(Math.random()*3+1);
         var mAttack = mLevel;
         var mDefense = mLevel;
         var mGold = 3*mLevel;
+        var mHealth = mLevel*20;
         
         monsters.push({
           latlng:mLatlng,
           marker:mMarker,
           icon:mIcon,
           level:mLevel,
+          health:mHealth,
           attack:mAttack, 
           defense:mDefense,
           gold:mGold
@@ -391,7 +408,7 @@
       if(frames == 60){
         frames = 1;
       }*/
-      window.requestAnimationFrame(mapAnimation);
+      window.requestAnimationFrame(animate);
       
       
     }
