@@ -178,6 +178,7 @@
                 // link to nasa_jpl_url
                 
                 clone.find("a").attr("href", v2.nasa_jpl_url);
+                clone.attr("id","notTemplate")
                 
                 var separator = $("<li>").addClass("mdc-list-divider").attr("role","separator");
                 $("#resultList").append(separator);
