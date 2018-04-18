@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  
+  <script type="text/javascript" src="https://material-components-web.appspot.com/assets/material-components-web.js"></script>
   <!-- the MCW stylesheet-->
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
   <!-- the material icon font-->
@@ -51,45 +53,33 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <div class="mdc-card__action-button">
-              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 1</button>
-            </div>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Fight</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <div class="mdc-card__action-button">
-              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 2</button>
-            </div>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Inventory</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <div class="mdc-card__action-button">
-              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 3</button>
-            </div>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">escape</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <div class="mdc-card__action-button">
-              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 1</button>
-            </div>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Action 4</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-    
-    
-        <button id="fightBtn" onclick="fightAction()">Fight</button>
-        
         <!--Buttons to add:
               Main:
                 Fight,
@@ -476,6 +466,8 @@
 
     <!-- Material Components Script -->
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
+    <script>MDCRipple.attachTo(document.querySelector('.mdc-button'));
+    console.log(document.querySelector('.mdc-button'))</script>
     <script>mdc.autoInit();</script>
   </body>
 </html>
