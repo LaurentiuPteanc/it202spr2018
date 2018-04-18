@@ -12,7 +12,7 @@
   <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
   <!-- the material icon font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="manifest" href="./manifest.json">
   <style type="text/css">
     body{   
     margin:0 auto; }
@@ -29,9 +29,9 @@
   <body style="height:97vh">
 
     <nav id="toolbar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
-      <a id="mapTab" class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()">Map</a>
-      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()">Inventory</a>
-      <a id="equipmentTab" class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipment()">Equipment</a>
+      <a id="mapTab" class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()" data-mdc-auto-init="MDCRipple">Map</a>
+      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()" data-mdc-auto-init="MDCRipple">Inventory</a>
+      <a id="equipmentTab" class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipment()" data-mdc-auto-init="MDCRipple">Equipment</a>
 
     </nav>
 
@@ -97,6 +97,16 @@
     <img id="playerImg" class='hide' src="./img/player.png">
     <img id="monsterImg" class='hide' src="./img/monster.png">
     <script>
+    
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('./service-worker.js')
+      .then(function(reg){
+        console.log("registered sw");
+      }).catch(function(err){
+        console.log(err);
+      });
+    }
+    
     var map;
     var mapStyle = [
   {
@@ -467,8 +477,6 @@
 
     <!-- Material Components Script -->
     <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
-    <script>MDCRipple.attachTo(document.querySelector('.mdc-button'));
-    console.log(document.querySelector('.mdc-button'))</script>
     <script>mdc.autoInit();</script>
   </body>
 </html>
