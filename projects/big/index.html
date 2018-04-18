@@ -39,6 +39,51 @@
     </div>
     <div id="battleScreen" height="100%" width="100%">
         <canvas id="battleCanvas" height="75%" width="100%"></canvas>
+  
+  
+  
+  <div class="mdc-layout-grid">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell--span-6">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+            <div class="mdc-card__action-button">
+              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 1</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell--span-6">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+            <div class="mdc-card__action-button">
+              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 2</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell--span-6">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+            <div class="mdc-card__action-button">
+              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 3</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell--span-6">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+            <div class="mdc-card__action-button">
+              <button class="mdc-button mdc-card__action mdc-card__action--button">Action 1</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+    
         <button id="fightBtn" onclick="fightAction()">Fight</button>
         
         <!--Buttons to add:
@@ -55,6 +100,7 @@
     </div>
     <img id="background" class='hide' src="./img/background.jpg">
     <img id="playerImg" class='hide' src="./img/player.png">
+    <img id="monsterImg" class='hide' src="./img/monster.png">
     <script>
     var map;
     var mapStyle = [
@@ -326,7 +372,7 @@
       
       battleContext.drawImage($('#background')[0],0,0,battleCanvas.width,battleCanvas.height)
       battleContext.drawImage($('#playerImg')[0],battleCanvas.width*.2,battleCanvas.height*.45,battleCanvas.width*.28,battleCanvas.height*.55)
-    
+      battleContext.drawImage($('#monsterImg')[0],battleCanvas.width*.65,battleCanvas.height*.25,battleCanvas.width*.2,battleCanvas.height*.45)
       
       
       window.requestAnimationFrame(animate);
