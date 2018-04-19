@@ -108,6 +108,7 @@
     }
     
     var map;
+    var heatmap;
     var mapStyle = [
   {
     "elementType": "labels",
@@ -231,6 +232,8 @@
           icon: player.icon
         });
         
+      getDistrict(player.latlng);
+        
       map.panTo(player.latlng);
     }
     
@@ -314,7 +317,15 @@
           //console.log(v.the_geom.coordinates[0][0])
           if(inside([pos.lng,pos.lat],v.the_geom.coordinates[0][0]) == true){
             console.log('true '+v.dist_num);
+            console.log(player.district)
+            var last_dist = player.district;
+            
             player.district=''+v.dist_num
+            if(player.district != last_dist){
+              console.log('getting crimes')
+              heatmap.setMap(null)
+              getCrimes(); 
+            }
           }
         })
         
@@ -341,7 +352,13 @@
         return inside;
     };
     function getCrimes(){
-      $.get('https://data.cityofchicago.org/resource/6zsd-86xi.json?$query=select * where date>"2018-01-01T00:00:00.000" and location is not null and district = "'+'0'+player.district+'"',
+      var dist;
+      if(player.district <10){
+        dist = '00'+player.district;
+      } else {
+        dist = '0'+player.district;
+      }
+      $.get('https://data.cityofchicago.org/resource/6zsd-86xi.json?$query=select * where date>"2017-01-01T00:00:00.000" and location is not null and district = "'+dist+'"',
         function(data){
           console.log(data);
           var crime_locs = [];
@@ -355,12 +372,12 @@
           
           
           
-          var heatmap = new google.maps.visualization.HeatmapLayer({
+          heatmap = new google.maps.visualization.HeatmapLayer({
             data: crime_locs,
             map: map
           });
           
-          heatmap.set('radius',200);
+          //heatmap.set('radius',200);
         });
     }
     
@@ -426,6 +443,7 @@
         var mDefense = mLevel;
         var mGold = 3*mLevel;
         var mHealth = mLevel*20;
+        var mTimeout = Math.floor(Math.random()*100+30)
         
         monsters.push({
           latlng:mLatlng,
@@ -435,9 +453,37 @@
           health:mHealth,
           attack:mAttack, 
           defense:mDefense,
-          gold:mGold
+          gold:mGold,
+          timeout:mTimeout
         })
       }
+      
+      var monsterInd = monsters.length-1;
+      
+      while(monsterInd>0){
+        var mon = monsters[monsterInd]
+        mon.timeout--;
+        if(mon.timeout<=0){
+          console.log("splicing")
+          mon.marker.setMap(null);
+          monsters.splice(monsterInd,1)
+        }
+        monsterInd--;
+      }
+      
+      
+      /*$.each(monsters,function(i,v){
+        console.log(monsterInd)
+        v.timeout--;
+        console.log(v.timeout)
+        if(v.timeout <= 0){
+          console.log("splicing")
+          v.marker.setMap(null);
+          monsters.splice(monsterInd,1)
+          monsterInd--;
+        }
+        monsterInd++;
+      })*/
       //Move monsters
       /*if(frames%30==0){
         $.each(monsters,function(i,v){
