@@ -69,13 +69,14 @@ self.addEventListener('activate', function(e) {
   return self.clients.claim();
 });
 
-self.addEventListener('fetch', function(e) {
+/*self.addEventListener('fetch', function(e) {
   //console.log('[ServiceWorker] Fetch', e.request.url);
   var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
-  if(e.request.url.indexOf(dataUrl) > -1){
+  if(1==1)//e.request.url.indexOf(dataUrl) > -1){
     e.respondWith(
       caches.open(dataCacheName).then(function(cache){
         return fetch(e.request).then(function(response){
+          console.log('caching'+e.request)
           cache.put(e.request.url, response.clone());
           return response;
         });
@@ -91,13 +92,15 @@ self.addEventListener('fetch', function(e) {
   }
   
   
-});
+});*/
 
 self.addEventListener('fetch', function(event) {
+  console.log('adding fetch event listener')
   event.respondWith(
     caches.match(event.request).then(function(resp) {
       return resp || fetch(event.request).then(function(response) {
         return caches.open('Big Project Cache v1').then(function(cache) {
+          console.log('caching'+event.request)
           cache.put(event.request, response.clone());
           return response;
         });  

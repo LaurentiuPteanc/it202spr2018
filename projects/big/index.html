@@ -24,6 +24,7 @@
       padding:0!important;
     }
   </style>
+  <script type="text/javascript" src="./js/screens.js"></script>
 </head>
 
   <body style="height:97vh">
@@ -187,96 +188,8 @@
       $("#battleScreen").hide();
     }); 
     
-    function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 30,
-          center: player.latlng,
-          styles: mapStyle,
-          disableDefaultUI:true,
-          tilt:45
-        });
-        
-        getLocation();
-        player.icon = {url:"./img/player.png",
-                      scaledSize: new google.maps.Size(50, 50), // scaled size
-                      origin: new google.maps.Point(0,0), // origin
-                      anchor: new google.maps.Point(0, 0) // anchor
-                    };
-        player.marker = new google.maps.Marker({
-          position: player.latlng,
-          map: map,
-          title: 'Player',
-          icon: player.icon
-        });
-        getCrimes();
-        animate();
-      }
-    function getLocation() {
-      if (navigator.geolocation) {
-        console.log('here');
-        navigator.geolocation.getCurrentPosition(updatePlayerLocation);
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-    }
-    function updatePlayerLocation(position){
-      console.log(position)
-      console.log(player)
-      player.latlng = {lat:position.coords.latitude,lng:position.coords.longitude}
-      console.log(player);
-      player.marker.setMap(null);
-      player.marker = new google.maps.Marker({
-          position: player.latlng,
-          map: map,
-          title: 'Player',
-          icon: player.icon
-        });
-        
-      getDistrict(player.latlng);
-        
-      map.panTo(player.latlng);
-    }
     
-    function showInventory(){
-      $("#inventoryScreen").show();
-      $("#inventoryTab").addClass('mdc-tab--active')
-      $("#mapScreen").hide();
-      $("#mapTab").removeClass('mdc-tab--active')
-      $("#equipmentScreen").hide();
-      $("#equipmentTab").removeClass('mdc-tab--active')
-      $("#battleScreen").hide();
-      $("#toolbar").show();
-    }
     
-    function showMap(){
-      $("#inventoryScreen").hide();
-      $("#inventoryTab").removeClass('mdc-tab--active')
-      $("#mapScreen").show();
-      $("#mapTab").addClass('mdc-tab--active')
-      $("#equipmentScreen").hide();
-      $("#equipmentTab").removeClass('mdc-tab--active')
-      $("#battleScreen").hide();
-      $("#toolbar").show();
-    }
-    
-    function showEquipment(){
-      $("#inventoryScreen").hide();
-      $("#inventoryTab").removeClass('mdc-tab--active')
-      $("#mapScreen").hide();
-      $("#mapTab").removeClass('mdc-tab--active')
-      $("#equipmentScreen").show();
-      $("#equipmentTab").addClass('mdc-tab--active')
-      $("#battleScreen").hide();
-      $("#toolbar").show();
-    }
-    
-    function showBattle(){
-      $("#inventoryScreen").hide();
-      $("#mapScreen").hide();
-      $("#equipmentScreen").hide();
-      $("#battleScreen").show();
-      $("#toolbar").hide();
-    }
     
     
     function getPlaces(){
@@ -443,7 +356,7 @@
         })
         var mLevel = Math.floor(Math.random()*3+1);
         var mAttack = mLevel;
-        var mDefense = mLevel;
+        var mDefense = mLevel+10;
         var mGold = 3*mLevel;
         var mHealth = mLevel*20;
         var mTimeout = Math.floor(Math.random()*100+30)
@@ -482,7 +395,7 @@
     function fightAction(){
       var mon = monsters[curMonster];
       
-      var atk = player.attack+player.weapon;
+      var atk = Math.floor(Math.random()*20)+player.attack+player.weapon;
       var def = mon.defense;
       
       if(atk>def){
@@ -500,6 +413,7 @@
     
     
     </script>
+    <script type="text/javascript" src="./js/mapFunctions.js"></script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
      <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&libraries=visualization&callback=initMap">
