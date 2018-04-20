@@ -22,14 +22,7 @@ function initMap() {
         getCrimes();
         animate();
       }
-    function getLocation() {
-      if (navigator.geolocation) {
-        console.log('here');
-        navigator.geolocation.getCurrentPosition(updatePlayerLocation);
-      } else {
-        console.log("Geolocation is not supported by this browser.");
-      }
-    }
+
     function updatePlayerLocation(position){
       console.log(position)
       console.log(player)

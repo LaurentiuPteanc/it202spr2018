@@ -17,3 +17,12 @@ options = {
 };
 console.log("before watch position")
 id = navigator.geolocation.watchPosition(success, error, options);
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        console.log('here');
+        navigator.geolocation.getCurrentPosition(updatePlayerLocation);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
