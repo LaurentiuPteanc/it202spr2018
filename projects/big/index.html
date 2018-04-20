@@ -54,7 +54,7 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Fight</button>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="fightAction()">Fight</button>
           </div>
         </div>
       </div>
@@ -395,6 +395,8 @@
       battleContext.drawImage($('#background')[0],0,0,battleCanvas.width,battleCanvas.height)
       battleContext.drawImage($('#playerImg')[0],battleCanvas.width*.2,battleCanvas.height*.45,battleCanvas.width*.28,battleCanvas.height*.55)
       battleContext.drawImage($('#monsterImg')[0],battleCanvas.width*.65,battleCanvas.height*.25,battleCanvas.width*.2,battleCanvas.height*.45)
+      battleContext.font = "30px Arial";
+      battleContext.fillText("Monster: "+monsters[curMonster].health,20,20)
       
       
       window.requestAnimationFrame(animate);
@@ -430,7 +432,8 @@
           $.each(monsters,function(i,v){
             if(v.marker==mMarker){
               curMonster = i;
-              console.log('Found Monster Marker')
+              console.log('Found Monster Marker') 
+              
             }
             else{
               console.log('Not this marker')
@@ -470,48 +473,29 @@
         }
         monsterInd--;
       }
-      
-      
-      /*$.each(monsters,function(i,v){
-        console.log(monsterInd)
-        v.timeout--;
-        console.log(v.timeout)
-        if(v.timeout <= 0){
-          console.log("splicing")
-          v.marker.setMap(null);
-          monsters.splice(monsterInd,1)
-          monsterInd--;
-        }
-        monsterInd++;
-      })*/
-      //Move monsters
-      /*if(frames%30==0){
-        $.each(monsters,function(i,v){
-          v.latlng = {lat:v.latlng.lat + Math.random() * (.000001-(-.000001)) -.000001,lng:v.latlng.lng + Math.random() * (.000001-(-.000001)) -.000001};
-          
-          mMarker = new google.maps.Marker({
-            position: v.latlng,
-            map: map,
-            title: 'Monster',
-            icon: v.icon
-          });
-          
-          v.marker.setMap(null);
-          v.marker=mMarker;
-          
-        })
-      }
-      frames++;
-      if(frames == 60){
-        frames = 1;
-      }*/
+
       window.requestAnimationFrame(animate);
       
       
     }
     
     function fightAction(){
+      var mon = monsters[curMonster];
       
+      var atk = player.attack+player.weapon;
+      var def = mon.defense;
+      
+      if(atk>def){
+        mon.health -= atk-def;
+      }
+      
+      if(mon.health <= 0){
+        showMap();
+        player.gold += mon.gold;
+        monsters.splice(curMonster,1);
+        mon.marker.setMap(null);
+        curAnimation = 'map';
+      }
     }
     
     
