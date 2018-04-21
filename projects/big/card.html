@@ -23,99 +23,65 @@
   height: 100px;
   width: 100px;
 }
+.mdc-grid-tile__secondary{
+  height:20px!important;
+  padding:0px!important;
+  color:black!important;
+}
+.mdc-grid-tile__primary-content{
+  height:100px;
+  width:100px;
+}
+.mdc-grid-tile {
+    --mdc-grid-list-tile-width: 100px;
+  }
   </style>
 </head>
 <body class="mdc-typography">
-
-  <div class="demo-grid mdc-layout-grid">
-    <div class="mdc-layout-grid__inner">
-      <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-        <div class="mdc-component__section">
-          <div class="mdc-component__containers__primary">
-            <div class="mdc-card">
-              <section class="mdc-card__header">
-                <div class="demo-card__avatar"></div>
-                <div>
-                </div>
-              </section>
-              <section class="mdc-card__media my-card__media my-card">
-                <div class="material-image"> </div>
-              </section>
-              <section class="mdc-card__supporting-text">Sword Tier 1</section>
-            </div>
-          </div>
-        </div>
+<div class="mdc-grid-list">
+  <ul class="mdc-grid-list__tiles">
+    <li class="mdc-grid-tile">
+      <div class="mdc-grid-tile__primary">
+        <img class="mdc-grid-tile__primary-content" src="https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg" />
       </div>
-            <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-        <div class="mdc-component__section">
-          <div class="mdc-component__containers__primary">
-            <div class="mdc-card">
-              <section class="mdc-card__header">
-                <div class="demo-card__avatar"></div>
-                <div>
-                </div>
-              </section>
-              <section class="mdc-card__media my-card__media my-card">
-                <div class="material-image"> </div>
-              </section>
-              <section class="mdc-card__supporting-text">Sword Tier 1</section>
-            </div>
-          </div>
-        </div>
+      <span class="mdc-grid-tile__secondary">
+        <span class="mdc-grid-tile__title">Title</span>
+      </span>
+    </li>
+    <li class="mdc-grid-tile">
+      <div class="mdc-grid-tile__primary">
+        <img class="mdc-grid-tile__primary-content" src="https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg" />
       </div>
-            <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-        <div class="mdc-component__section">
-          <div class="mdc-component__containers__primary">
-            <div class="mdc-card">
-              <section class="mdc-card__header">
-                <div class="demo-card__avatar"></div>
-                <div>
-                </div>
-              </section>
-              <section class="mdc-card__media my-card__media my-card">
-                <div class="material-image"> </div>
-              </section>
-              <section class="mdc-card__supporting-text">Sword Tier 1</section>
-            </div>
-          </div>
-        </div>
+      <span class="mdc-grid-tile__secondary">
+        <span class="mdc-grid-tile__title">Title</span>
+      </span>
+    </li>
+    <li class="mdc-grid-tile">
+      <div class="mdc-grid-tile__primary">
+        <img class="mdc-grid-tile__primary-content" src="https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg" />
       </div>
-            <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-        <div class="mdc-component__section">
-          <div class="mdc-component__containers__primary">
-            <div class="mdc-card">
-              <section class="mdc-card__header">
-                <div class="demo-card__avatar"></div>
-                <div>
-                </div>
-              </section>
-              <section class="mdc-card__media my-card__media my-card">
-                <div class="material-image"> </div>
-              </section>
-              <section class="mdc-card__supporting-text">Sword Tier 1</section>
-            </div>
-          </div>
-        </div>
+      <span class="mdc-grid-tile__secondary">
+        <span class="mdc-grid-tile__title">Title</span>
+      </span>
+    </li>
+    <li class="mdc-grid-tile">
+      <div class="mdc-grid-tile__primary">
+        <img class="mdc-grid-tile__primary-content" src="https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg" />
       </div>
-            <div class="demo-cell mdc-layout-grid__cell mdc-layout-grid__cell--span-3">
-        <div class="mdc-component__section">
-          <div class="mdc-component__containers__primary">
-            <div class="mdc-card">
-              <section class="mdc-card__header">
-                <div class="demo-card__avatar"></div>
-                <div>
-                </div>
-              </section>
-              <section class="mdc-card__media my-card__media my-card">
-                <div class="material-image"> </div>
-              </section>
-              <section class="mdc-card__supporting-text">Sword Tier 1</section>
-            </div>
-          </div>
-        </div>
+      <span class="mdc-grid-tile__secondary">
+        <span class="mdc-grid-tile__title">Title</span>
+      </span>
+    </li>
+    <li class="mdc-grid-tile">
+      <div class="mdc-grid-tile__primary">
+        <img class="mdc-grid-tile__primary-content" src="https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg" />
       </div>
-    </div>
-  </div>
+      <span class="mdc-grid-tile__secondary">
+        <span class="mdc-grid-tile__title">Title</span>
+      </span>
+    </li>
+  </ul>
+</div>
 
   <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.js"></script>
   
