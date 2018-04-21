@@ -25,6 +25,7 @@
     }
   </style>
   <script type="text/javascript" src="./js/screens.js"></script>
+  <script type="text/javascript" src="./js/utilFunctions.js"></script>
   <script type="text/javascript" src="./js/monsters.js"></script>
 </head>
 
@@ -32,7 +33,7 @@
 
     <nav id="toolbar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
       <a id="mapTab" class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()" data-mdc-auto-init="MDCRipple">Map</a>
-      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()" data-mdc-auto-init="MDCRipple">Inventory</a>
+      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory('map')" data-mdc-auto-init="MDCRipple">Inventory</a>
       <a id="equipmentTab" class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipment()" data-mdc-auto-init="MDCRipple">Equipment</a>
 
     </nav>
@@ -51,7 +52,7 @@
   
   
   
-  <div class="mdc-layout-grid">
+  <div class="mdc-layout-grid" id="mainCombatMenu">
     <div class="mdc-layout-grid__inner">
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
@@ -63,7 +64,7 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Inventory</button>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="showInventory('battle')">Inventory</button>
           </div>
         </div>
       </div>
@@ -78,6 +79,40 @@
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
             <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Action 4</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="mdc-layout-grid" id="fightCombatMenu">
+    <div class="mdc-layout-grid__inner">
+      <div class="mdc-layout-grid__cell">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Slash</button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Bash</button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Stab</button>
+          </div>
+        </div>
+      </div>
+      <div class="mdc-layout-grid__cell">
+        <div class= "mdc-card">
+          <div class="mdc-card__actions mdc-card__actions--full-bleed">
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Back</button>
           </div>
         </div>
       </div>
@@ -187,41 +222,10 @@
       $("#mapScreen").show();
       $("#inventoryScreen").hide();
       $("#battleScreen").hide();
+      
+      animate();
     }); 
     
-    
-    
-    
-    
-    function getPlaces(){
-      var baseUrl = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='
-      var lat = player.latlng.lat;//'-33.8670'
-      var lng = player.latlng.lng;//'151.1957'
-      var radius = '500';
-      var type = 'bank';
-      var name = '';
-      var key = 'AIzaSyAhKjUtfMz2x_JzgOQe5sPu1uBno2ygk1U';
-      
-     // https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670,151.1957&radius=500&types=food&name=cruise&key=YOUR_API_KEY
-     
-      $.ajax({
-        url:baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
-        headers: {
-         'Access-Control-Allow-Origin':'*'
-        },
-        dataType: 'json',
-        method:'GET',
-        success: function(data){
-         console.log(data);
-        }
-         
-      });
-     /*$.get(baseUrl+lat+','+lng+'&radius='+radius+'&types='+type+'&key='+key,
-      function(data){
-        console.log(data);
-      });
-      $.get;*/
-    }
     function getDistrict(pos){
       var url='https://data.cityofchicago.org/resource/24zt-jpfn.json';
       var query = '?$select=dist_num,simplify_preserve_topology(the_geom, 0.001) as the_geom'
@@ -247,24 +251,7 @@
       
       
     }
-    function inside(point, vs) {
-        // ray-casting algorithm based on
-        // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-        
-        var x = point[0], y = point[1];
     
-        var inside = false;
-        for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-            var xi = vs[i][0], yi = vs[i][1];
-            var xj = vs[j][0], yj = vs[j][1];
-    
-            var intersect = ((yi > y) != (yj > y))
-                && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-            if (intersect) inside = !inside;
-        }
-    
-        return inside;
-    };
     function getCrimes(){
       var dist;
       if(player.district <10){
@@ -367,7 +354,7 @@
     </script>
     <script type="text/javascript" src="./js/mapFunctions.js"></script>
     <script type="text/javascript" src="./js/geolocation.js"></script>
-     <script async defer
+     <script 
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&libraries=visualization&callback=initMap">
     </script>
 

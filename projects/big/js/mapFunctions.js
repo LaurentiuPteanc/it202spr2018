@@ -20,7 +20,6 @@ function initMap() {
           icon: player.icon
         });
         getCrimes();
-        animate();
       }
 
     function updatePlayerLocation(position){

@@ -37,4 +37,5 @@ function showInventory(){
       $("#equipmentScreen").hide();
       $("#battleScreen").show();
       $("#toolbar").hide();
+      $("#fightCombatMenu").hide();
     }
