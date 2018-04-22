@@ -7,6 +7,22 @@ function showInventory(){
       $("#equipmentTab").removeClass('mdc-tab--active')
       $("#battleScreen").hide();
       $("#toolbar").show();
+      
+      $('tileTemplate').show();
+      
+      $('#tileTemplate').siblings().remove();
+      
+      console.log(player.inventory);
+      $.each(player.inventory,function(i,v){
+        console.log(v)
+        var tileClone = $('#tileTemplate').clone();
+        console.log(tileClone.find('#tileImg'));
+        tileClone.find('#tileImg').attr('src',"./img/items/"+v.type+".png");
+        tileClone.find('#itemDescription').text("+"+v.strength+" "+v.attackType)
+        $('#inventoryList').append(tileClone)
+        tileClone.show();
+      })
+      $('#tileTemplate').hide();
     }
     
     function showMap(){

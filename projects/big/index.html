@@ -24,6 +24,7 @@
       padding:0!important;
     }
   </style>
+  <link rel="stylesheet" href="./css/inventory.css  " type="text/css" />
   <script type="text/javascript" src="./js/screens.js"></script>
   <script type="text/javascript" src="./js/utilFunctions.js"></script>
   <script type="text/javascript" src="./js/monsters.js"></script>
@@ -33,7 +34,7 @@
 
     <nav id="toolbar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
       <a id="mapTab" class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()" data-mdc-auto-init="MDCRipple">Map</a>
-      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory('map')" data-mdc-auto-init="MDCRipple">Inventory</a>
+      <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()" data-mdc-auto-init="MDCRipple">Inventory</a>
       <a id="equipmentTab" class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipment()" data-mdc-auto-init="MDCRipple">Equipment</a>
 
     </nav>
@@ -46,6 +47,18 @@
       <button onclick="getCrimes()" >getCrimes</button>
     </div>
     <div id="inventoryScreen">
+      <div class="mdc-grid-list">
+        <ul class="mdc-grid-list__tiles" id="inventoryList">
+          <li class="mdc-grid-tile" id="tileTemplate">
+            <div class="mdc-grid-tile__primary">
+              <img id="tileImg" class="mdc-grid-tile__primary-content"/>
+            </div>
+            <span class="mdc-grid-tile__secondary">
+              <span class="mdc-grid-tile__title" id="itemDescription">Title</span>
+            </span>
+          </li>
+        </ul>
+      </div>
     </div>
     <div id="battleScreen" height="100%" width="100%">
         <canvas id="battleCanvas" height="75%" width="100%"></canvas>
@@ -64,14 +77,14 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="showInventory('battle')">Inventory</button>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="showInventory()">Inventory</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">escape</button>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Escape</button>
           </div>
         </div>
       </div>
