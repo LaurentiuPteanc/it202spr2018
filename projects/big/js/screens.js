@@ -55,6 +55,7 @@ function showInventory(){
     }
     
     function showMap(){
+      $('#start').hide();
       $("#inventoryScreen").hide();
       $("#inventoryTab").removeClass('mdc-tab--active')
       $("#mapScreen").show();

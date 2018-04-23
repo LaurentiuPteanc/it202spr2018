@@ -35,16 +35,34 @@
     <nav id="toolbar" class="mdc-tab-bar custom-tab-bar-in-toolbar mdc-tab-bar-upgraded mdc-typography--display4">
       <a id="mapTab" class="mdc-tab mdc-tab--active mdc-ripple-upgraded" href="#one" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showMap()" data-mdc-auto-init="MDCRipple">Map</a>
       <a id="inventoryTab" class="mdc-tab mdc-ripple-upgraded " href="#two" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showInventory()" data-mdc-auto-init="MDCRipple">Inventory</a>
-      <a id="equipmentTab" class="mdc-tab mdc-ripple-upgraded" href="#three" style="--mdc-ripple-fg-size:96px; --mdc-ripple-fg-scale:1.84422;" onclick="showEquipment()" data-mdc-auto-init="MDCRipple">Equipment</a>
-
+      
     </nav>
 
     
- 
+    <div id="start">
+      <p>For the big project, I decided to create a geolocation based game.</p>
+      <p>Although it was not completed, it has most of the requirements.</p>
+      <p>The 3 screens consist of the Map Screen, the Inventory Screen, and the Battle Screen.</p>
+      <p>The first 2 screens can be accessed by the Material Components Navigation bar, while the 
+      Battle Screen can be accessed by clicking on a monster that appears on the map screen to enter combat</p>
+      <p>The combat system is not finished, but the player can currently use 3 attacks against the monsters.
+      At first these attacks randomly get a value and compares it to the monster's defense. If this value plus the 
+      player's base attack plus the player's weapon damage is greater than the monster's defense, they lose health 
+      equal to the difference. Monsters drop items and gold once defeated which can be viewed, used, and equiped from
+      the inventory screen.</p>
+      <p>I have 2 city of chicago data points. The first gathers and caches the boundaries of the police districts.
+      The second gets all the crime data in the player's current district, or district 12 if it has not updated yet,
+      and creates a heatmap to inform players of possible dangerous areas. I filtered the crime data by the district
+      because it allowed me to cache the data so my app would not have to make constant calls to the data source 
+      whenever the player moved.</p>
+      <p>The visualization used is Google Maps.</p>
+      <p>The device capability used is geolocation</p>
+      <p>I was planning on storing the user's data in an IndexedDB so their inventory and location, along with some other
+      values would be stored accross sessions, but I was not able to complete this requirement.</p>
+      <button onclick="showMap()">Click here to go to the map</button>
+    </div>
     <div id="mapScreen" style="height:93%;width:100%;">
       <div id="map" style="height:100%;width:100%;"></div>
-      <button onclick="getPlaces()" >getPlaces</button>
-      <button onclick="getCrimes()" >getCrimes</button>
     </div>
     <div id="inventoryScreen">
       <div class="mdc-grid-list">Equipment/Gold:
@@ -290,7 +308,7 @@
     console.log(player.district)
 
     $(document).ready(function(){ 
-      $("#mapScreen").show();
+      $("#mapScreen").hide();
       $("#inventoryScreen").hide();
       $("#battleScreen").hide();
       
@@ -439,6 +457,9 @@
       }
     }
     
+    function escape(){
+      showMap();
+    }
     
     </script>
     <script type="text/javascript" src="./js/mapFunctions.js"></script>
