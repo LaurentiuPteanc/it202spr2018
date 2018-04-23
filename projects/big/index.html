@@ -47,14 +47,22 @@
       <button onclick="getCrimes()" >getCrimes</button>
     </div>
     <div id="inventoryScreen">
-      <div class="mdc-grid-list">Equipment:
+      <div class="mdc-grid-list">Equipment/Gold:
         <ul class="mdc-grid-list__tiles" id="equipmentList">
           <li class="mdc-grid-tile" id="equipmentTileTemplate">
              <div class="mdc-grid-tile__primary">
               <img id="tileImg" class="mdc-grid-tile__primary-content"/>
             </div> 
             <span class="mdc-grid-tile__secondary">
-              <span class="mdc-grid-tile__title" id="itemDescription">Title</span>
+              <span class="mdc-grid-tile__title" id="itemDescription">No Equipment</span>
+            </span>
+          </li>
+          <li class="mdc-grid-tile" id="goldTile">
+             <div class="mdc-grid-tile__primary">
+              <img id="tileImg" class="mdc-grid-tile__primary-content"/>
+            </div> 
+            <span class="mdc-grid-tile__secondary">
+              <span class="mdc-grid-tile__title" id="itemDescription">Gold</span>
             </span>
           </li>
         </ul>
@@ -323,7 +331,8 @@
       battleContext.drawImage($('#playerImg')[0],battleCanvas.width*.2,battleCanvas.height*.45,battleCanvas.width*.28,battleCanvas.height*.55)
       battleContext.drawImage($('#monsterImg')[0],battleCanvas.width*.65,battleCanvas.height*.25,battleCanvas.width*.2,battleCanvas.height*.45)
       battleContext.font = "30px Arial";
-      battleContext.fillText("Monster: "+monsters[curMonster].health,20,20)
+      battleContext.fillText("Monster Health: "+monsters[curMonster].health,20,40)
+      battleContext.fillText("Player Health: "+player.health,battleCanvas.width-300,battleCanvas.height-40)
       
       
       window.requestAnimationFrame(animate);
@@ -372,7 +381,7 @@
       var mon = monsters[curMonster];
       var weaponBuff = 0;
       $.each(player.equipment,function(i,v){
-        if(v.type = 'weapon' && v.attackType==attackType){
+        if(v.type == 'weapon' && v.attackType==attackType){
           weaponBuff+=v.strength;
         }
       })

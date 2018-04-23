@@ -46,15 +46,15 @@ function addMonster(){
         if(rand == 0){
           rand = Math.floor(Math.random()*3)
           if(rand == 0){
-            rand = Math.floor(Math.random()*3)
+            rand = Math.floor(Math.random()*3)+1
             mItem = {type:'weapon', subType:'sword', attackType:"slash",strength:rand,description:"+"+rand+" slash"}
           }
           else if(rand == 1){
-            rand = Math.floor(Math.random()*3)
+            rand = Math.floor(Math.random()*3)+1
             mItem = {type:'weapon', subType:'spear', attackType:"stab",strength:rand,description:"+"+rand+" stab"}
           }
           else {
-            rand = Math.floor(Math.random()*3)
+            rand = Math.floor(Math.random()*3)+1
             mItem = {type:'weapon', subType:'axe', attackType:"bash",strength:rand,description:"+"+rand+" bash"}
           }
         

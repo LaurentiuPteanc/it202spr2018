@@ -12,9 +12,14 @@ function showInventory(){
       
       $('#tileTemplate').siblings().remove();
       
-      console.log(player.inventory);
+      $('#goldTile').find('#tileImg').attr('src','./img/items/gold.png')
+      $('#goldTile').find('#itemDescription').text(player.gold+' Gold');
+      
+      if(player.equipment.length > 0){
+        $('#equipmentTileTemplate').find('#tileImg').attr('src','./img/items/'+player.equipment[0].subType+'.png')
+        $('#equipmentTileTemplate').find('#itemDescription').text(player.equipment[0].description)
+      }
       $.each(player.inventory,function(i,v){
-        console.log(v)
         var tileClone = $('#tileTemplate').clone();
         console.log(tileClone.find('#tileImg'));
         tileClone.find('#tileImg').attr('src',"./img/items/"+v.subType+".png");
@@ -25,12 +30,24 @@ function showInventory(){
         tileClone.on('click',function(){
           console.log($(this).attr('ind'))
           var item = $(this);
-          if(item.attr('type')=='food'){
+          if(item.attr('type')==='food'){
             player.health += player.inventory[item.attr('ind')].strength;
             player.inventory.splice(item.attr('ind'),1);
-            showInventory();
+            
           }
-          
+          else if(item.attr('type')==='weapon'){
+            console.log('weapon item')
+            $.each(player.equipment,function(i,v){
+              if(v.type==='weapon'){
+                player.inventory.push($.extend({},v));
+                player.equipment.splice(i,1);
+              }
+              console.log('not a weapon')
+            })
+          player.equipment.push($.extend({},player.inventory[item.attr('ind')]))
+          player.inventory.splice(item.attr('ind'),1)
+          }
+          showInventory();
         });
         tileClone.show();
       })
