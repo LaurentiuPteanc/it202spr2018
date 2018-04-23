@@ -1,15 +1,4 @@
-.my-card__media {
-      background-image: url("https://thumbs.dreamstime.com/b/cartoon-sword-hand-drawn-illustration-retro-style-vector-available-37010199.jpg");
-      background-size: cover;
-    }
-    .my-card {
-  height: 100%;
-  width: 100%;
-}
-.mdc-card {
-  height: 100px;
-  width: 100px;
-}
+
 .mdc-grid-tile__secondary{
   height:20px!important;
   padding:0px!important;

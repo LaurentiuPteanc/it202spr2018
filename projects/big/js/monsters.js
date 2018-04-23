@@ -39,8 +39,30 @@ function addMonster(){
         var mAttack = mLevel;
         var mDefense = mLevel+10;
         var mGold = 3*mLevel;
-        var mHealth = mLevel*20;
+        var mHealth = mLevel*20
         var mTimeout = Math.floor(Math.random()*100+30)
+        var rand = Math.floor(Math.random()*3);
+        var mItem;
+        if(rand == 0){
+          rand = Math.floor(Math.random()*3)
+          if(rand == 0){
+            rand = Math.floor(Math.random()*3)
+            mItem = {type:'weapon', subType:'sword', attackType:"slash",strength:rand,description:"+"+rand+" slash"}
+          }
+          else if(rand == 1){
+            rand = Math.floor(Math.random()*3)
+            mItem = {type:'weapon', subType:'spear', attackType:"stab",strength:rand,description:"+"+rand+" stab"}
+          }
+          else {
+            rand = Math.floor(Math.random()*3)
+            mItem = {type:'weapon', subType:'axe', attackType:"bash",strength:rand,description:"+"+rand+" bash"}
+          }
+        
+        }
+        else{
+          rand = Math.floor(Math.random()*9)+1
+          mItem = {type:'food', subType:'food', strength:rand, description:"+"+rand+" health"}
+        }
         
         monsters.push({
           latlng:mLatlng,
@@ -51,6 +73,7 @@ function addMonster(){
           attack:mAttack, 
           defense:mDefense,
           gold:mGold,
-          timeout:mTimeout
+          timeout:mTimeout,
+          item:mItem
         })
 }

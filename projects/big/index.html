@@ -47,12 +47,25 @@
       <button onclick="getCrimes()" >getCrimes</button>
     </div>
     <div id="inventoryScreen">
-      <div class="mdc-grid-list">
+      <div class="mdc-grid-list">Equipment:
+        <ul class="mdc-grid-list__tiles" id="equipmentList">
+          <li class="mdc-grid-tile" id="equipmentTileTemplate">
+             <div class="mdc-grid-tile__primary">
+              <img id="tileImg" class="mdc-grid-tile__primary-content"/>
+            </div> 
+            <span class="mdc-grid-tile__secondary">
+              <span class="mdc-grid-tile__title" id="itemDescription">Title</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="mdc-grid-list">Inventory:
         <ul class="mdc-grid-list__tiles" id="inventoryList">
           <li class="mdc-grid-tile" id="tileTemplate">
             <div class="mdc-grid-tile__primary">
               <img id="tileImg" class="mdc-grid-tile__primary-content"/>
-            </div>
+            </div> 
             <span class="mdc-grid-tile__secondary">
               <span class="mdc-grid-tile__title" id="itemDescription">Title</span>
             </span>
@@ -70,7 +83,7 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="fightAction()">Fight</button>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="showFightActions()">Fight</button>
           </div>
         </div>
       </div>
@@ -84,7 +97,7 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Escape</button>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="escape()">Escape</button>
           </div>
         </div>
       </div>
@@ -104,28 +117,28 @@
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Slash</button>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="damage('slash')">Slash</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Bash</button>
+              <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="damage('bash')">Bash</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Stab</button>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="damage('stab')">Stab</button>
           </div>
         </div>
       </div>
       <div class="mdc-layout-grid__cell">
         <div class= "mdc-card">
           <div class="mdc-card__actions mdc-card__actions--full-bleed">
-            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple">Back</button>
+            <button class="mdc-button mdc-card__action mdc-card__action--button mdc-ripple-surface" data-mdc-auto-init="MDCRipple" onclick="showMainCombat()">Back</button>
           </div>
         </div>
       </div>
@@ -218,13 +231,13 @@
                     origin: new google.maps.Point(0,0), // origin
                     anchor: new google.maps.Point(0, 0) // anchor
               },*/
-              inventory:{},
+              inventory:[],
+              equipment:[],
               level:1,
               health:50,
               attack:1,
               defense:1,
               armor:0,
-              weapon:0,
               gold:0
     
 }
@@ -344,10 +357,26 @@
       
     }
     
-    function fightAction(){
-      var mon = monsters[curMonster];
+    function showFightActions(){
+      $('#mainCombatMenu').hide()
+      $('#fightCombatMenu').show();
       
-      var atk = Math.floor(Math.random()*20)+player.attack+player.weapon;
+    }
+    
+    function showMainCombat(){
+      $('#mainCombatMenu').show()
+      $('#fightCombatMenu').hide();
+    }
+    
+    function damage(attackType){
+      var mon = monsters[curMonster];
+      var weaponBuff = 0;
+      $.each(player.equipment,function(i,v){
+        if(v.type = 'weapon' && v.attackType==attackType){
+          weaponBuff+=v.strength;
+        }
+      })
+      var atk = Math.floor(Math.random()*20)+player.attack+weaponBuff;
       var def = mon.defense;
       
       if(atk>def){
@@ -357,6 +386,7 @@
       if(mon.health <= 0){
         showMap();
         player.gold += mon.gold;
+        player.inventory.push(mon.item)
         monsters.splice(curMonster,1);
         mon.marker.setMap(null);
         curAnimation = 'map';
