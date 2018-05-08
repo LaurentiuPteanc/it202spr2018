@@ -24,11 +24,16 @@
         </div>
         <div class='container-fluid'>
             <ul class="list-group">
-              <li class="list-group-item" id="template">
-                  <div id="site_type"></div>
-                  <div id="site_name"></div>
-                  <div id="site_address"></div>
-              </li>
+                <a id="template" href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                  <h5 id="site_name" class="mb-1">List group item heading</h5>
+                  <small id="site_type">3 days ago</small>
+                </div>
+                <p class="mb-1" id="site_address"></p>
+                <p class="mb-1" id="city-state-zip">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+                <p class="mb-1" id="site_phone"></p>
+                <small id="hours">Donec id elit non mi porta.</small>
+              </a>
             </ul>
         </div>
         <div id="map" style="height:400px;width:100%;"></div>
@@ -111,11 +116,12 @@
             '<p>Specialty: '+v.clinic_type+'</p>'+
             '<p>Hours: '+v.hours_of_operation+'</p>'+
             '<p>Phone: '+v.phone_1+'</p>'+
+            '<p>City, State Zip: '+v.city+', '+v.state+' '+v.zip+
             '</div>'+
             '</div>';
             var infowindow = new google.maps.InfoWindow({
                 content: contentString
-            });
+            });;
             
             marker.addListener('click', function() {
           infowindow.open(map, marker);
@@ -126,6 +132,9 @@
             clone.find('#site_name').text(v.site_name);
             clone.find('#site_type').text(v.clinic_type);
             clone.find('#site_address').text(v.street_address)
+            clone.find('#city-state-zip').text(v.city+', '+v.state+' '+v.zip);
+            clone.find('#site_phone').text(v.phone_1);
+            clone.find('#hours').text(v.hours_of_operation);
             clone.attr('id','');
             temp.parent().append(clone);
             clone.show();            
