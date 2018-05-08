@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pteanc P5</title>
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <video id="camera" width="200" height="200" controls autoplay></video>
+        <canvas id="image" width="200" height="200" hidden="true"></canvas>
+        <br>
+        <button id="picBtn">Take Picture</button>
+        <div id="collage"></div>
+    
+        
+    <script>
+      const camera = document.getElementById('camera');//$('#camera');
+      const frameCanvas = document.getElementById('image');
+      const frameContext = frameCanvas.getContext('2d');
+      const picBtn = document.getElementById('picBtn')
+      const key = 'AIzaSyAhKjUtfMz2x_JzgOQe5sPu1uBno2ygk1U';
+      const constraints = {
+        video: true,
+      };
+    
+      navigator.mediaDevices.getUserMedia(constraints)
+        .then((stream) => {
+          camera.srcObject = stream;
+        });
+        
+      console.log('adding event')
+      picBtn.addEventListener("click",function(){
+          //console.log('here')
+          //console.log(camera.height);
+        frameContext.drawImage(camera, 0, 0,camera.width,camera.height);//, frameCanvas.width, frameCanvas.height);
+        var type = 'FACE_DETECTION';
+        var visionAPIEndpoint = 'https://vision.googleapis.com/v1/images:annotate'
+        var faceRequest = {
+                "requests":[
+                  {
+                    "image":{
+                      "content":frameCanvas.toDataURL().split(",")[1]
+                    },
+                    "features":[
+                      {
+                        "type": type,
+                        "maxResults":10
+                      }
+                    ]
+                  }
+                ]
+        }
+        var tagRequest = {
+                "requests":[
+                  {
+                    "image":{
+                      "content":frameCanvas.toDataURL().split(",")[1]
+                    },
+                    "features":[
+                      {
+                        "type": 'LABEL_DETECTION',
+                        "maxResults":10
+                      }
+                    ]
+                  }
+                ]
+        }
+        $.ajax({
+            method:"POST",
+            contentType:"application/json",
+            url:visionAPIEndpoint+"?key="+key,
+            data:JSON.stringify(faceRequest)})
+            .done(function(data){
+                console.log(data)
+                if(data.responses[0].faceAnnotations != null){
+                    console.log('not null')
+                    var corners = data.responses[0].faceAnnotations[0].boundingPoly.vertices;
+                    console.log(corners)
+                    
+                    var container = document.createElement('div')
+                    var clone = document.createElement('canvas');//$('#template').clone();
+                    container.appendChild(clone)
+                    document.getElementById('collage').prepend(container);
+                    
+                    var cloneContext = clone.getContext('2d');
+                    console.log(cloneContext)
+                    //document.getElementById('template').getContext('2d')
+                    var TL = corners[0];
+                    var faceWidth = corners[1].x-TL.x;
+                    var faceHeight = corners[3].y-TL.y;
+                    console.log(faceWidth)
+                    clone.setAttribute("height",faceHeight);
+                    clone.setAttribute("width",faceWidth);
+                    cloneContext.putImageData(frameContext.getImageData(TL.x,TL.y,faceWidth,faceHeight),0,0)//, 0, 0,camera.width,camera.height);
+                    
+                  
+                    $.ajax({
+                        method:"POST",
+                        contentType:"application/json",
+                        url:visionAPIEndpoint+"?key="+key,
+                        data:JSON.stringify(tagRequest)})
+                        .done(function(data){
+                            console.log(data)
+                            var ul = document.createElement('ul');
+                            container.appendChild(ul)
+                            console.log(data.responses[0].labelAnnotations)
+                            $.each(data.responses[0].labelAnnotations,function(i,v){
+                                console.log(v)
+                                var li = document.createElement('li')
+                                li.innerHTML =  v.description//'<p>' + v.description + '</p>'
+                                ul.appendChild(li)
+                            })
+                        })
+                        
+                }
+                else 
+                {
+                    console.log('null')
+                    alert('No Face Detected')
+                }
+                                  
+            })
+      })
+    </script>
+    </body>
+    
+</html>
