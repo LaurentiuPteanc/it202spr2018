@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello World</title>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" type="text/css" />
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js" integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9" crossorigin="anonymous"></script>
+    
+    </head>
+    <body>
+        <h1>Hello World</h1>
+        <p>Laurentiu Pteanc</p>
+        <div class='container-fluid'>
+        <div id="search">
+            <div id="checkboxes">
+                <input type="radio" name="template" value="temp" >
+            </div>
+            <button type="button" id="search" onclick="doSearch()" >Search</button>
+            
+            
+        </div>
+        </div>
+        <div class='container-fluid'>
+            <ul class="list-group">
+              <li class="list-group-item" id="template">
+                  <div id="site_type"></div>
+                  <div id="site_name"></div>
+                  <div id="site_address"></div>
+              </li>
+            </ul>
+        </div>
+        <div id="map" style="height:400px;width:100%;"></div>
+        <script>
+    
+          var markers = [];
+          var map;
+          
+          $(document).ready(function(){ 
+                $('.list-group #template').hide();
+              $.ajax({
+                  url: "https://data.cityofchicago.org/resource/t57k-za2y.json?$query=select%20clinic_type%20group%20by%20clinic_type",
+                  method: 'GET',
+                }).done(function(result) {
+                  var checkboxTemplate = $("input[name='template']");
+                  console.log(result);
+                  $.each(result,function(i,v){
+                    console.log(v);
+                    //console.log(checkboxTemplate);
+                    var checkboxClone = checkboxTemplate.clone();
+                    checkboxClone.attr("name","clinic_list");
+                    checkboxClone.attr("value",v.clinic_type);
+                    checkboxClone.attr("text",v.clinic_type);
+                    checkboxTemplate.parent().append(checkboxClone);
+                    checkboxTemplate.parent().append("<span>"+v.clinic_type+"</span><br>");
+                    
+                    
+                    
+                  });
+                  checkboxTemplate.remove();
+                  
+                }).fail(function(err) {
+                  throw err;
+                });
+              
+        }) 
+        
+        function doSearch(){
+            for (var i = 0; i < markers.length; i=i) {
+            markers[i].setMap(null);
+            markers.splice(i,1);
+        }
+        
+        var temp  = $('.list-group #template');
+        temp.siblings().remove();
+        
+        var clinic_type = '';
+        var clinics = $("input[name='clinic_list']");//("#query").val();
+        console.log(clinic_type);
+        clinics.each(function(i){
+          console.log(this.checked);
+          if(this.checked == true){
+            clinic_type += "'"+this.value+"', ";
+          }
+        });
+        
+        var url = "https://data.cityofchicago.org/resource/t57k-za2y.json?$where=clinic_type IN (";
+        url += clinic_type + "'')";
+        console.log(url);
+        $.ajax({
+          url: url,
+          method: 'GET',
+        }).done(function(result) {
+          console.log(result);
+          $.each(result,function(i,v){
+            var marker_pos = {lat: parseFloat(v.location.coordinates[1]), lng: parseFloat(v.location.coordinates[0])};
+            var imgUrl = getMarker(v.clinic_type);
+            var marker = new google.maps.Marker({
+                  position: marker_pos,
+                  map: map,
+                  icon:imgUrl
+                }) 
+              markers.push(marker);
+            var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">'+v.site_name+'</h1>'+
+            '<div id="bodyContent">'+
+            '<p>Address: '+v.street_address+'</p>'+
+            '<p>Specialty: '+v.clinic_type+'</p>'+
+            '<p>Hours: '+v.hours_of_operation+'</p>'+
+            '<p>Phone: '+v.phone_1+'</p>'+
+            '</div>'+
+            '</div>';
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            
+            marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+            
+            
+            var clone = temp.clone();
+            clone.find('#site_name').text(v.site_name);
+            clone.find('#site_type').text(v.clinic_type);
+            clone.find('#site_address').text(v.street_address)
+            clone.attr('id','');
+            temp.parent().append(clone);
+            clone.show();            
+              
+          });
+                
+        }).fail(function(err) {
+          throw err;
+        });
+        }
+        
+        function initMap() {
+        var chicago_pos = {lat: 41.8658728, lng: -87.6480645};
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 12,
+          center: chicago_pos
+        });
+        
+           
+      }
+      
+      function getMarker(clinic_type){
+        switch (clinic_type){
+          case "STI Specialty Clinic":
+            return "http://maps.google.com/mapfiles/kml/paddle/grn-stars.png";
+            break;
+          case "Mental Health Clinic":
+            return "http://maps.google.com/mapfiles/kml/paddle/ylw-stars.png";
+            break;
+          case "WIC Clinic":
+            return "http://maps.google.com/mapfiles/kml/paddle/orange-stars.png";
+            break;
+          default:
+            return "http://maps.google.com/mapfiles/kml/paddle/red-circle.png";
+          
+        }
+        //console.log(response);
+    }
+
+        
+        </script>
+            <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1fUKamtuwCvGlTQrA06yfUzJ33bhtAGg&callback=initMap">
+    </script>
+    </body>
+</html>
